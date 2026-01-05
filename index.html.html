@@ -32,7 +32,7 @@
 <body class="antialiased">
 
     <div class="promo-banner fixed w-full z-[100] top-0">
-        🔥 PROMOÇÃO DE ANO NOVO: USE O CUPOM <span class="bg-white text-blue-600 px-2 rounded ml-1">JADSON10</span> PARA 10% OFF!
+        🔥 PROMOÇÃO DE ANO NOVO: USE O CUPOM <span class="bg-white text-blue-600 px-2 rounded ml-1">JADSON25</span> PARA 10% OFF!
     </div>
 
     <nav class="fixed w-full z-[80] nav-blur top-8 py-4 px-8 flex justify-between items-center">
@@ -79,7 +79,7 @@
                     <div class="pt-4 border-t border-white/10">
                         <label class="text-[10px] font-bold text-slate-500 uppercase ml-1">Possui cupom de desconto?</label>
                         <div class="flex gap-2 mt-1">
-                            <input type="text" id="coupon_input" placeholder="Ex: JADSON10" class="flex-grow p-3 rounded-xl bg-slate-900 border border-white/20 outline-none uppercase font-bold text-sky-500">
+                            <input type="text" id="coupon_input" placeholder="Ex: JADSON25" class="flex-grow p-3 rounded-xl bg-slate-900 border border-white/20 outline-none uppercase font-bold text-sky-500">
                             <button type="button" onclick="applyCoupon()" class="bg-white text-black px-4 rounded-xl font-bold text-xs uppercase">Aplicar</button>
                         </div>
                         <p id="coupon-msg" class="text-[10px] mt-1 ml-1"></p>
@@ -328,12 +328,14 @@
             document.getElementById('step-2').classList.add('hidden');
         }
 
-        function applyCoupon() {
+       function applyCoupon() {
             const code = document.getElementById('coupon_input').value.toUpperCase();
             const msg = document.getElementById('coupon-msg');
-            if(code === 'JADSON10') {
-                discount = currentProduct.price * 0.10;
-                msg.innerText = "✅ CUPOM APLICADO! 10% de desconto.";
+            
+            if(code === 'JARDSON25') {
+                // ALTERAÇÃO AQUI: Valor fixo de 25 reais
+                discount = 25; 
+                msg.innerText = "✅ CUPOM APLICADO! R$ 25,00 de desconto.";
                 msg.className = "text-[10px] mt-1 ml-1 text-green-500 font-bold";
             } else {
                 discount = 0;
@@ -374,7 +376,7 @@
             const mensagem = `🚀 *NOVO PEDIDO - JADSON IMPORTS*\n\n` +
                 `📦 *PRODUTO:* ${currentProduct.name}\n` +
                 `💰 *VALOR:* R$ ${valorFinal.toLocaleString('pt-BR')}\n` +
-                `${discount > 0 ? '🎟️ *CUPOM APLICADO:* JADSON10\n' : ''}` +
+                `${discount > 0 ? '🎟️ *CUPOM APLICADO:* JADSON25\n' : ''}` +
                 `----------------------------\n` +
                 `👤 *CLIENTE:* ${nome}\n` +
                 `📍 *ENDEREÇO:* ${rua}, Nº ${num}\n` +

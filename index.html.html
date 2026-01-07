@@ -28,8 +28,11 @@
         .category-btn.active { background: #0ea5e9; color: white; border-color: #0ea5e9; box-shadow: 0 0 15px rgba(14, 165, 233, 0.4); }
         .category-scroll::-webkit-scrollbar { display: none; }
 
-        #checkout-modal { display: none; background: rgba(0,0,0,0.9); z-index: 100; }
+        #checkout-modal, #cart-modal { display: none; background: rgba(0,0,0,0.9); z-index: 100; }
         .img-container { background: white; border-radius: 18px; margin-bottom: 1rem; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 200px; width: 100%; }
+        
+        .cart-float { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: #0ea5e9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 10px 25px rgba(14, 165, 233, 0.5); cursor: pointer; z-index: 90; transition: 0.3s; }
+        .cart-count { position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; font-size: 12px; font-weight: bold; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--bg-dark); }
     </style>
 </head>
 <body class="antialiased">
@@ -45,6 +48,11 @@
             <a href="https://api.whatsapp.com/send?phone=5596991557184" class="text-sky-500 text-xl"><i class="fab fa-whatsapp"></i></a>
         </div>
     </nav>
+
+    <div class="cart-float" onclick="openCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <div id="cart-count" class="cart-count">0</div>
+    </div>
 
     <header class="pt-48 pb-10 px-6 text-center">
         <h1 class="text-4xl md:text-6xl font-black mb-6 tracking-tight" data-aos="fade-up">COMPRE HOJE!,<br><span class="text-sky-500 italic">RECEBA HOJE NA SUA CASA.</span></h1>
@@ -70,13 +78,31 @@
         <div id="catalog-content" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6"></div>
     </main>
 
+    <div id="cart-modal" class="fixed inset-0 flex items-center justify-center p-4">
+        <div class="glass p-6 rounded-[30px] w-full max-w-lg relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeCart()" class="absolute top-4 right-4 text-slate-500"><i class="fas fa-times"></i></button>
+            <h2 class="text-xl font-black mb-6 uppercase">🛒 Seu Carrinho</h2>
+            <div id="cart-items" class="space-y-4 mb-6"></div>
+            <div id="cart-empty-msg" class="text-center py-8 hidden">
+                <p class="text-slate-500">Seu carrinho está vazio.</p>
+            </div>
+            <div class="border-t border-white/10 pt-4">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="font-bold">Total dos Produtos:</span>
+                    <span id="cart-total-price" class="text-xl font-black text-sky-500">R$ 0,00</span>
+                </div>
+                <button onclick="goToCheckout()" id="btn-go-checkout" class="btn-gradient w-full py-4 rounded-xl uppercase font-black">Finalizar Pedido</button>
+            </div>
+        </div>
+    </div>
+
     <div id="checkout-modal" class="fixed inset-0 flex items-center justify-center p-4">
         <div class="modal-content glass p-6 rounded-[30px] w-full max-w-lg relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-500"><i class="fas fa-times"></i></button>
             
             <div id="step-1">
-                <h2 class="text-xl font-black mb-4 uppercase">🛒 Finalizar Pedido</h2>
-                <div id="prod-resumo" class="bg-white/5 p-4 rounded-2xl mb-4 border border-white/10 italic text-sky-500 flex items-center gap-4 text-sm"></div>
+                <h2 class="text-xl font-black mb-4 uppercase">📋 Dados de Entrega</h2>
+                <div id="prod-resumo" class="bg-white/5 p-4 rounded-2xl mb-4 border border-white/10 text-[10px] space-y-1 italic text-sky-400"></div>
                 <form onsubmit="nextStep(event)" class="space-y-3">
                     <input type="text" id="cust_name" placeholder="Nome Completo" required class="w-full p-3 rounded-xl bg-slate-800 border border-white/10 outline-none">
                     <div class="flex gap-2">
@@ -85,13 +111,11 @@
                     </div>
                     <input type="text" id="cust_bairro" placeholder="Bairro" required class="w-full p-3 rounded-xl bg-slate-800 border border-white/10 outline-none">
                     <input type="text" id="cust_ref" placeholder="Ponto de Referência (Opcional)" class="w-full p-3 rounded-xl bg-slate-800 border border-white/10 outline-none">
-                    
                     <input type="text" id="coupon_input" placeholder="Cupom" class="w-full p-3 rounded-xl bg-slate-900 border border-white/20 outline-none uppercase font-bold text-sky-500">
                     <button type="button" onclick="applyCoupon()" class="w-full bg-white text-black py-2 rounded-xl font-bold text-xs">APLICAR CUPOM</button>
                     <p id="coupon-msg" class="text-[10px] text-center"></p>
-                    
                     <div class="bg-sky-500/10 p-4 rounded-2xl flex justify-between items-center">
-                        <span class="text-xs font-bold uppercase">Total:</span>
+                        <span class="text-xs font-bold uppercase">Total Final:</span>
                         <span id="final-price" class="text-xl font-black text-sky-500"></span>
                     </div>
                     <button type="submit" class="btn-gradient w-full py-4 rounded-xl uppercase font-black">Próximo: Pagamento</button>
@@ -114,77 +138,74 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init();
-        let currentProduct = null;
+        let cart = [];
         let discount = 0;
 
-       const products = [
+        const products = [
             // IPHONES
-            { name: "Apple iPhone 17 Pro (256 GB) - Laranja", price: 8900, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/51nj2ICJyeL._AC_SX342_.jpg" },
-            { name: "Apple iPhone 16 Pro Max (256 GB) - Titânio", price: 6500, promo: false, category: "iphone", image: "https://m.media-amazon.com/images/I/61ZYQoH3-hL._AC_SX342_.jpg" },
-            { name: "Apple iPhone 15 Pro (256 GB) - Titânio Natural", price: 6500, promo: false, category: "iphone", image: "https://m.media-amazon.com/images/I/81gTH9iEn+L._AC_SY450_.jpg" },
-            { name: "Apple iPhone 14 Pro Max (256 GB) - Roxo", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/518bzP8VW1L._AC_SX679_.jpg" },
-            { name: "Apple iPhone 13 Pro Max (128 GB) - Azul Sierra", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/41yGCey9asL._AC_SX342_.jpg" },
-            { name: "iphone 11 128gb cores disponiveis", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/8137-r7lskL._AC_SX522_.jpg" },
-            { name: "Apple iPhone 12 (128GB) - Roxo", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/51Gd7SNm7NL._AC_SX342_.jpg" },
-            { name: "Apple iPhone 13 (128 GB) - Luz das estrelas", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/41Zbbl4P+LL._AC_SY450_.jpg" },
-            { name: "Apple iPhone 14 Plus (128 GB) – Roxo", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/61YSNhAb00L._AC_SY450_.jpg" },
-            { name: "Apple iPhone 15 Plus (256 GB) — Preto", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/416MG51rNgL._AC_SX342_.jpg" },
-            { name: "Apple iPhone 16 (256 GB) – Rosa", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/71Z-rd+PWgL._AC_SX342_.jpg" },
+            { id: 1, name: "Apple iPhone 17 Pro (256 GB) - Laranja", price: 8900, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/51nj2ICJyeL._AC_SX342_.jpg" },
+            { id: 2, name: "Apple iPhone 16 Pro Max (256 GB) - Titânio", price: 6500, promo: false, category: "iphone", image: "https://m.media-amazon.com/images/I/61ZYQoH3-hL._AC_SX342_.jpg" },
+            { id: 3, name: "Apple iPhone 15 Pro (256 GB) - Titânio Natural", price: 6500, promo: false, category: "iphone", image: "https://m.media-amazon.com/images/I/81gTH9iEn+L._AC_SY450_.jpg" },
+            { id: 4, name: "Apple iPhone 14 Pro Max (256 GB) - Roxo", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/518bzP8VW1L._AC_SX679_.jpg" },
+            { id: 5, name: "Apple iPhone 13 Pro Max (128 GB) - Azul Sierra", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/41yGCey9asL._AC_SX342_.jpg" },
+            { id: 6, name: "iphone 11 128gb cores disponiveis", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/8137-r7lskL._AC_SX522_.jpg" },
+            { id: 7, name: "Apple iPhone 12 (128GB) - Roxo", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/51Gd7SNm7NL._AC_SX342_.jpg" },
+            { id: 8, name: "Apple iPhone 13 (128 GB) - Luz das estrelas", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/41Zbbl4P+LL._AC_SY450_.jpg" },
+            { id: 9, name: "Apple iPhone 14 Plus (128 GB) – Roxo", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/61YSNhAb00L._AC_SY450_.jpg" },
+            { id: 10, name: "Apple iPhone 15 Plus (256 GB) — Preto", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/416MG51rNgL._AC_SX342_.jpg" },
+            { id: 11, name: "Apple iPhone 16 (256 GB) – Rosa", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/71Z-rd+PWgL._AC_SX342_.jpg" },
             
             // SOM
-            { name: "JBL Boombox 3 Bluetooth - Preto", price: 2100, promo: true, category: "som", image: "https://m.media-amazon.com/images/I/51x0NvQUgbL._AC_SY450_.jpg" },
-            { name: "JBL PartyBox Club 120 - 160W RMS", price: 2100, promo: true, category: "som", image: "https://m.media-amazon.com/images/I/516wzBmSReL._AC_SY450_.jpg" },
-            { name: "Caixa de Som AIWA BBS-01-B 200W", price: 2100, promo: true, category: "som", image: "https://m.media-amazon.com/images/I/81EM7NWp2fL._AC_SX679_.jpg" },
-            { name: "Basike Fone de Ouvido Bluetooth TWS", price: 150, promo: false, category: "som", image: "https://m.media-amazon.com/images/I/51auQNthvnL._AC_SX522_.jpg" },
+            { id: 12, name: "JBL Boombox 3 Bluetooth - Preto", price: 2100, promo: true, category: "som", image: "https://m.media-amazon.com/images/I/51x0NvQUgbL._AC_SY450_.jpg" },
+            { id: 13, name: "JBL PartyBox Club 120 - 160W RMS", price: 2100, promo: true, category: "som", image: "https://m.media-amazon.com/images/I/516wzBmSReL._AC_SY450_.jpg" },
+            { id: 14, name: "Caixa de Som AIWA BBS-01-B 200W", price: 2100, promo: true, category: "som", image: "https://m.media-amazon.com/images/I/81EM7NWp2fL._AC_SX679_.jpg" },
+            { id: 15, name: "Basike Fone de Ouvido Bluetooth TWS", price: 150, promo: false, category: "som", image: "https://m.media-amazon.com/images/I/51auQNthvnL._AC_SX522_.jpg" },
 
             // XIAOMI
-              { name: "Xiaomi 14 Ultra - Snapdragon 8 Gen 3, câmera Leica", price: 6900, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71ZQmN0Q0CL._AC_SX425_.jpg" },
-              { name: "Xiaomi 14 Pro - AMOLED 120Hz, Snapdragon 8 Gen 3", price: 5900, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71c8y9g7FEL._AC_SX425_.jpg" },
-              { name: "Xiaomi 14 - Compacto premium, Snapdragon 8 Gen 3", price: 4900, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61y2VVWcJHL._AC_SX425_.jpg" },
-              { name: "Xiaomi 13 Ultra - Câmera profissional Leica", price: 5200, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71X7kQp8Y7L._AC_SX425_.jpg" },
-              { name: "Xiaomi 13 Pro - Snapdragon 8 Gen 2", price: 4200, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61WZ0a9pXlL._AC_SX425_.jpg" },
-              { name: "Xiaomi 13 - AMOLED 120Hz, premium", price: 3800, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61wln8y-YUL._AC_SX425_.jpg" },
-              { name: "Redmi Note 13 Pro+ 5G - 200MP, AMOLED", price: 2900, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71yN1n0x6ML._AC_SX425_.jpg" },
-              { name: "Redmi Note 13 Pro 5G - 200MP", price: 2500, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71Z2z5nW3ZL._AC_SX425_.jpg" },
-              { name: "Redmi Note 13 - AMOLED 120Hz", price: 1800, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61pK5Gk2qEL._AC_SX425_.jpg" },
-              { name: "Redmi Note 12 Pro 5G - Câmera 50MP OIS", price: 2100, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61H6g5xN1IL._AC_SX425_.jpg" },
-              { name: "Redmi Note 12 - AMOLED", price: 1400, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61S6x9Oa1UL._AC_SX425_.jpg" },
-              { name: "Redmi 13C - Básico com boa bateria", price: 900, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61B0+qQriPL._AC_SX425_.jpg" },
-              { name: "Redmi 12 - Tela grande e econômico", price: 1000, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61l7fG3vH0L._AC_SX425_.jpg" },
-              { name: "Redmi 10C - Entrada", price: 800, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61x9gT5Tz7L._AC_SX425_.jpg" },
-              { name: "POCO F6 Pro - Snapdragon topo de linha", price: 3500, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71QzJzXK6UL._AC_SX425_.jpg" },
-              { name: "POCO F5 - Snapdragon 7+ Gen 2", price: 2900, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61VxZz6J2qL._AC_SX425_.jpg" },
-              { name: "POCO X6 Pro - Dimensity 8300 Ultra", price: 2400, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71yZf6OZrZL._AC_SX425_.jpg" },
-              { name: "POCO X6 - AMOLED 120Hz", price: 1900, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61d2z5vPqPL._AC_SX425_.jpg" },
-              { name: "POCO M6 Pro - Custo benefício", price: 1500, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61Yp9J7p6IL._AC_SX425_.jpg" },
-
+            { id: 16, name: "Xiaomi 14 Ultra - Snapdragon 8 Gen 3, câmera Leica", price: 6900, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71ZQmN0Q0CL._AC_SX425_.jpg" },
+            { id: 17, name: "Xiaomi 14 Pro - AMOLED 120Hz, Snapdragon 8 Gen 3", price: 5900, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71c8y9g7FEL._AC_SX425_.jpg" },
+            { id: 18, name: "Xiaomi 14 - Compacto premium, Snapdragon 8 Gen 3", price: 4900, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61y2VVWcJHL._AC_SX425_.jpg" },
+            { id: 19, name: "Xiaomi 13 Ultra - Câmera profissional Leica", price: 5200, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71X7kQp8Y7L._AC_SX425_.jpg" },
+            { id: 20, name: "Xiaomi 13 Pro - Snapdragon 8 Gen 2", price: 4200, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61WZ0a9pXlL._AC_SX425_.jpg" },
+            { id: 21, name: "Xiaomi 13 - AMOLED 120Hz, premium", price: 3800, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61wln8y-YUL._AC_SX425_.jpg" },
+            { id: 22, name: "Redmi Note 13 Pro+ 5G - 200MP, AMOLED", price: 2900, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71yN1n0x6ML._AC_SX425_.jpg" },
+            { id: 23, name: "Redmi Note 13 Pro 5G - 200MP", price: 2500, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71Z2z5nW3ZL._AC_SX425_.jpg" },
+            { id: 24, name: "Redmi Note 13 - AMOLED 120Hz", price: 1800, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61pK5Gk2qEL._AC_SX425_.jpg" },
+            { id: 25, name: "Redmi Note 12 Pro 5G - Câmera 50MP OIS", price: 2100, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61H6g5xN1IL._AC_SX425_.jpg" },
+            { id: 26, name: "Redmi Note 12 - AMOLED", price: 1400, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61S6x9Oa1UL._AC_SX425_.jpg" },
+            { id: 27, name: "Redmi 13C - Básico com boa bateria", price: 900, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61B0+qQriPL._AC_SX425_.jpg" },
+            { id: 28, name: "Redmi 12 - Tela grande e econômico", price: 1000, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61l7fG3vH0L._AC_SX425_.jpg" },
+            { id: 29, name: "Redmi 10C - Entrada", price: 800, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61x9gT5Tz7L._AC_SX425_.jpg" },
+            { id: 30, name: "POCO F6 Pro - Snapdragon topo de linha", price: 3500, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71QzJzXK6UL._AC_SX425_.jpg" },
+            { id: 31, name: "POCO F5 - Snapdragon 7+ Gen 2", price: 2900, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61VxZz6J2qL._AC_SX425_.jpg" },
+            { id: 32, name: "POCO X6 Pro - Dimensity 8300 Ultra", price: 2400, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71yZf6OZrZL._AC_SX425_.jpg" },
+            { id: 33, name: "POCO X6 - AMOLED 120Hz", price: 1900, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61d2z5vPqPL._AC_SX425_.jpg" },
+            { id: 34, name: "POCO M6 Pro - Custo benefício", price: 1500, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61Yp9J7p6IL._AC_SX425_.jpg" },
 
             // GAMES
-            { name: "PlayStation®5 Slim Edição Digital", price: 150, promo: false, category: "games", image: "https://m.media-amazon.com/images/I/71ANJQTALWL._AC_SX679_.jpg" },
-            { name: "Nintendo Switch 2", price: 150, promo: false, category: "games", image: "https://m.media-amazon.com/images/I/61XUxyAtX3L._AC_SX522_.jpg" },
-            { name: "R36S Retro Handheld 128GB", price: 150, promo: false, category: "games", image: "https://m.media-amazon.com/images/I/61DVS27PObL._AC_SX569_.jpg" }, 
+            { id: 35, name: "PlayStation®5 Slim Edição Digital", price: 150, promo: false, category: "games", image: "https://m.media-amazon.com/images/I/71ANJQTALWL._AC_SX679_.jpg" },
+            { id: 36, name: "Nintendo Switch 2", price: 150, promo: false, category: "games", image: "https://m.media-amazon.com/images/I/61XUxyAtX3L._AC_SX522_.jpg" },
+            { id: 37, name: "R36S Retro Handheld 128GB", price: 150, promo: false, category: "games", image: "https://m.media-amazon.com/images/I/61DVS27PObL._AC_SX569_.jpg" }, 
       
-           // CÂMERA DE SEGURANÇA
-           { name: "Câmera Vigilância IP Externa", price: 150, promo: false, category: "camera", image: "..." },
-           { name: "Câmera Lâmpada Wifi 360°", price: 150, promo: false, category: "camera", image: "..." },
-           { name: "Mini Câmera Espiã A9 Full HD", price: 150, promo: false, category: "camera", image: "..." },
-
+            // CÂMERA DE SEGURANÇA
+            { id: 38, name: "Câmera Vigilância IP Externa", price: 150, promo: false, category: "camera", image: "https://m.media-amazon.com/images/I/61pD7x2fC3L._AC_SX522_.jpg" },
+            { id: 39, name: "Câmera Lâmpada Wifi 360°", price: 150, promo: false, category: "camera", image: "https://m.media-amazon.com/images/I/51pWp6fK82L._AC_SX522_.jpg" },
+            { id: 40, name: "Mini Câmera Espiã A9 Full HD", price: 150, promo: false, category: "camera", image: "https://m.media-amazon.com/images/I/51V66U9L1sL._AC_SX522_.jpg" },
 
             // TV & STREAMING
-            { name: "Unitv v10 Full HD 4k 5G", price: 150, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/61vh-qTp2BL._AC_SY450_.jpg" },
-            { name: "Fire TV Stick HD Alexa", price: 150, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/61Lg5RZZFQL._AC_SX679_.jpg" },
-            { name: "TV Box MXQ Pro 4K", price: 150, promo: false, category: "tv", image: "https://images-cdn.ubuy.qa/636e41c740493842e3547682-mxq-pro-5g-android-10-1-tv-box-4k-mxq.jpg" },
-            { name: "Smart TV AOC 32'' Roku", price: 150, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/5127C3SrlYL._AC_SY355_.jpg" },
-            { name: "Smart TV AOC 43'' Full HD", price: 150, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/61OgdFiSoqL._AC_SL1000_.jpg" },
-            { name: "Smart TV 50'' Multi 4K Android", price: 150, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/61p2ipKeGBL._AC_SY355_.jpg" },
-            { name: "Smart TV HQ 65'' 4K Slim", price: 150, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/61-pdvOgyRL._AC_SY355_.jpg" },
+            { id: 41, name: "Unitv v10 Full HD 4k 5G", price: 150, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/61vh-qTp2BL._AC_SY450_.jpg" },
+            { id: 42, name: "Fire TV Stick HD Alexa", price: 150, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/61Lg5RZZFQL._AC_SX679_.jpg" },
+            { id: 43, name: "TV Box MXQ Pro 4K", price: 150, promo: false, category: "tv", image: "https://images-cdn.ubuy.qa/636e41c740493842e3547682-mxq-pro-5g-android-10-1-tv-box-4k-mxq.jpg" },
+            { id: 44, name: "Smart TV AOC 32'' Roku", price: 150, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/5127C3SrlYL._AC_SY355_.jpg" },
+            { id: 45, name: "Smart TV AOC 43'' Full HD", price: 150, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/61OgdFiSoqL._AC_SL1000_.jpg" },
+            { id: 46, name: "Smart TV 50'' Multi 4K Android", price: 150, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/61p2ipKeGBL._AC_SY355_.jpg" },
+            { id: 47, name: "Smart TV HQ 65'' 4K Slim", price: 150, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/61-pdvOgyRL._AC_SY355_.jpg" },
 
             // OUTROS
-            { name: "Airfryer Philips Walita Digital", price: 150, promo: false, category: "outros", image: "https://m.media-amazon.com/images/I/51USP1yVx+L._AC_SY450_.jpg" },
-            { name: "Creatine Turbo Black Skull 300g", price: 150, promo: false, category: "outros", image: "https://m.media-amazon.com/images/I/6165ojDGBPL._AC_SX679_.jpg" },
-            { name: "Projetor Portátil HY320 Android 13", price: 150, promo: false, category: "outros", image: "https://m.media-amazon.com/images/I/51k+vJCruuL._AC_SX679_.jpg" },
-            { name: "Copo Stanley 473ml Original", price: 150, promo: false, category: "outros", image: "https://m.media-amazon.com/images/I/61ElGpGo5IL._AC_SX679_.jpg" },
-
+            { id: 48, name: "Airfryer Philips Walita Digital", price: 150, promo: false, category: "outros", image: "https://m.media-amazon.com/images/I/51USP1yVx+L._AC_SY450_.jpg" },
+            { id: 49, name: "Creatine Turbo Black Skull 300g", price: 150, promo: false, category: "outros", image: "https://m.media-amazon.com/images/I/6165ojDGBPL._AC_SX679_.jpg" },
+            { id: 50, name: "Projetor Portátil HY320 Android 13", price: 150, promo: false, category: "outros", image: "https://m.media-amazon.com/images/I/51k+vJCruuL._AC_SX679_.jpg" },
+            { id: 51, name: "Copo Stanley 473ml Original", price: 150, promo: false, category: "outros", image: "https://m.media-amazon.com/images/I/61ElGpGo5IL._AC_SX679_.jpg" },
         ];
 
         function render(list = products) {
@@ -200,22 +221,76 @@
                         <p class="text-2xl font-black mt-2 text-white">R$ ${p.price.toLocaleString('pt-BR')}</p>
                         <p class="text-[10px] text-green-500 font-bold uppercase tracking-widest mt-1 italic">ENTREGA GRÁTIS</p>
                     </div>
-                    <button onclick="openCheckout('${p.name}', ${p.price}, '${p.image}')" class="btn-gradient w-full py-3 rounded-xl text-xs uppercase mt-6">Comprar</button>
+                    <button onclick="addToCart(${p.id})" class="btn-gradient w-full py-3 rounded-xl text-xs uppercase mt-6">Adicionar ao Carrinho</button>
                 </div>
             `).join('');
         }
 
-        function openCheckout(name, price, image) {
-            currentProduct = { name, price, image };
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const inCart = cart.find(item => item.id === id);
+            if (inCart) { inCart.qty++; } else { cart.push({ ...product, qty: 1 }); }
+            updateCartUI();
+            openCart();
+        }
+
+        function updateCartUI() {
+            const count = cart.reduce((acc, item) => acc + item.qty, 0);
+            document.getElementById('cart-count').innerText = count;
+            const container = document.getElementById('cart-items');
+            const emptyMsg = document.getElementById('cart-empty-msg');
+            const totalDisplay = document.getElementById('cart-total-price');
+            if (cart.length === 0) {
+                container.innerHTML = "";
+                emptyMsg.classList.remove('hidden');
+                document.getElementById('btn-go-checkout').disabled = true;
+                document.getElementById('btn-go-checkout').style.opacity = "0.5";
+            } else {
+                emptyMsg.classList.add('hidden');
+                document.getElementById('btn-go-checkout').disabled = false;
+                document.getElementById('btn-go-checkout').style.opacity = "1";
+                container.innerHTML = cart.map(item => `
+                    <div class="flex items-center gap-4 bg-white/5 p-3 rounded-2xl border border-white/5">
+                        <img src="${item.image}" class="w-16 h-16 object-contain bg-white rounded-lg p-1">
+                        <div class="flex-grow">
+                            <h4 class="text-[10px] font-bold line-clamp-1">${item.name}</h4>
+                            <p class="text-sky-500 font-black text-sm">R$ ${(item.price * item.qty).toLocaleString('pt-BR')}</p>
+                            <div class="flex items-center gap-3 mt-1">
+                                <button onclick="changeQty(${item.id}, -1)" class="w-5 h-5 rounded bg-white/10 text-xs">-</button>
+                                <span class="text-xs">${item.qty}</span>
+                                <button onclick="changeQty(${item.id}, 1)" class="w-5 h-5 rounded bg-white/10 text-xs">+</button>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="text-red-500 p-2"><i class="fas fa-trash text-xs"></i></button>
+                    </div>
+                `).join('');
+            }
+            const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            totalDisplay.innerText = `R$ ${total.toLocaleString('pt-BR')}`;
+        }
+
+        function changeQty(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) removeFromCart(id);
+                else updateCartUI();
+            }
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            updateCartUI();
+        }
+
+        function openCart() { document.getElementById('cart-modal').style.display = 'flex'; }
+        function closeCart() { document.getElementById('cart-modal').style.display = 'none'; }
+
+        function goToCheckout() {
+            closeCart();
+            const summary = document.getElementById('prod-resumo');
+            summary.innerHTML = cart.map(item => `<div>• ${item.qty}x ${item.name} - R$ ${(item.price * item.qty).toLocaleString('pt-BR')}</div>`).join('');
             discount = 0;
-            document.getElementById('coupon-msg').innerText = "";
-            document.getElementById('coupon_input').value = "";
-            
-            document.getElementById('prod-resumo').innerHTML = `
-                <img src="${image}" class="w-12 h-12 rounded-lg bg-white object-contain p-1">
-                <span>${name} - R$ ${price.toLocaleString('pt-BR')}</span>
-            `;
-            
             updateTotal();
             document.getElementById('checkout-modal').style.display = 'flex';
             document.getElementById('step-1').classList.remove('hidden');
@@ -225,7 +300,6 @@
         function applyCoupon() {
             const code = document.getElementById('coupon_input').value.toUpperCase();
             const msg = document.getElementById('coupon-msg');
-            
             if(code === 'JARDSON25') {
                 discount = 25; 
                 msg.innerText = "✅ CUPOM APLICADO! R$ 25,00 de desconto.";
@@ -239,22 +313,17 @@
         }
 
         function updateTotal() {
-            const final = currentProduct.price - discount;
+            const totalItems = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            const final = Math.max(0, totalItems - discount);
             document.getElementById('final-price').innerText = `R$ ${final.toLocaleString('pt-BR')}`;
         }
 
         function closeModal() { document.getElementById('checkout-modal').style.display = 'none'; }
-        
-        function nextStep(e) { 
-            e.preventDefault(); 
-            document.getElementById('step-1').classList.add('hidden'); 
-            document.getElementById('step-2').classList.remove('hidden'); 
-        }
-
+        function nextStep(e) { e.preventDefault(); document.getElementById('step-1').classList.add('hidden'); document.getElementById('step-2').classList.remove('hidden'); }
         function copyPix() {
             const key = document.getElementById('pix-key-text').innerText;
             navigator.clipboard.writeText(key);
-            alert("Chave PIX copiada! Agora faça o pagamento e envie o comprovante.");
+            alert("Chave PIX copiada!");
         }
 
         function sendOrder() {
@@ -263,38 +332,33 @@
             const num = document.getElementById('cust_num').value;
             const bairro = document.getElementById('cust_bairro').value;
             const ref = document.getElementById('cust_ref').value || 'Não informado';
-            
-            const valorFinal = currentProduct.price - discount;
-            
+            const totalProd = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            const valorFinal = totalProd - discount;
+            let itensLista = cart.map(item => `• ${item.qty}x ${item.name}`).join('\n');
+
             const mensagem = `🚀 *NOVO PEDIDO - JARDSON IMPORTS*\n\n` +
-                `📦 *PRODUTO:* ${currentProduct.name}\n` +
-                `💰 *VALOR:* R$ ${valorFinal.toLocaleString('pt-BR')}\n` +
-                `${discount > 0 ? '🎟️ *CUPOM APLICADO:* JARDSON25\n' : ''}` +
+                `📦 *ITENS:*\n${itensLista}\n\n` +
+                `💰 *TOTAL:* R$ ${valorFinal.toLocaleString('pt-BR')}\n` +
+                `${discount > 0 ? '🎟️ *CUPOM:* JARDSON25\n' : ''}` +
                 `----------------------------\n` +
                 `👤 *CLIENTE:* ${nome}\n` +
                 `📍 *ENDEREÇO:* ${rua}, Nº ${num}\n` +
                 `🏘️ *BAIRRO:* ${bairro}\n` +
                 `🔍 *REF:* ${ref}\n\n` +
-                `📸 *ESTOU ENVIANDO O COMPROVANTE ABAIXO:*`;
+                `📸 *ENVIANDO COMPROVANTE...*`;
 
-            const fone = "5596991557184";
-            window.open(`https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(mensagem)}`, '_blank');
+            window.open(`https://api.whatsapp.com/send?phone=5596991557184&text=${encodeURIComponent(mensagem)}`, '_blank');
         }
 
         function filterByCategory(category, btn) {
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            if(category === 'todos') {
-                render(products);
-            } else {
-                const filtered = products.filter(p => p.category === category);
-                render(filtered);
-            }
+            if(category === 'todos') render(products);
+            else render(products.filter(p => p.category === category));
         }
 
         document.getElementById('searchInput').addEventListener('input', (e) => {
-            const filtered = products.filter(p => p.name.toLowerCase().includes(e.target.value.toLowerCase()));
-            render(filtered);
+            render(products.filter(p => p.name.toLowerCase().includes(e.target.value.toLowerCase())));
         });
 
         render();

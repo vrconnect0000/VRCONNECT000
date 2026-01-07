@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jardson Imports | Premium Store</title>
+    
+    <link rel="icon" type="image/png" href="https://files.catbox.moe/8ytxl8.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
         :root { --accent: #0ea5e9; --bg-dark: #020617; --card-bg: #0f172a; }
@@ -15,6 +19,9 @@
         .promo-banner { background: linear-gradient(90deg, #0ea5e9, #2563eb); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; padding: 8px 0; text-align: center; color: white; }
         .nav-blur { background: rgba(2, 6, 23, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
         
+        .logo-box { width: 75px; height: 75px; display: flex; align-items: center; justify-content: center; background: transparent; }
+        .logo-img-clean { width: 100%; height: 100%; object-fit: contain; filter: brightness(1.2); }
+
         .product-card { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05); border-radius: 24px; transition: all 0.4s; position: relative; overflow: hidden; display: flex; flex-direction: column; }
         .product-card:hover { border-color: var(--accent); transform: translateY(-5px); }
         .product-card img { transition: transform 0.5s ease; }
@@ -22,16 +29,16 @@
         
         .discount-badge { position: absolute; top: 15px; left: 15px; background: #ef4444; color: white; font-size: 10px; font-weight: 900; padding: 4px 10px; border-radius: 99px; z-index: 10; }
         .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
-        .btn-gradient { background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%); transition: 0.3s; color: black; font-weight: 800; cursor: pointer; }
+        .btn-gradient { background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%); transition: 0.3s; color: white; font-weight: 800; cursor: pointer; border:none; }
         
-        .category-btn { padding: 10px 20px; border-radius: 99px; font-size: 11px; font-weight: 700; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1); white-space: nowrap; transition: 0.3s; background: rgba(255,255,255,0.05); }
+        .category-btn { padding: 10px 20px; border-radius: 99px; font-size: 11px; font-weight: 700; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1); white-space: nowrap; transition: 0.3s; background: rgba(255,255,255,0.05); color: white; }
         .category-btn.active { background: #0ea5e9; color: white; border-color: #0ea5e9; box-shadow: 0 0 15px rgba(14, 165, 233, 0.4); }
         .category-scroll::-webkit-scrollbar { display: none; }
 
         #checkout-modal, #cart-modal { display: none; background: rgba(0,0,0,0.9); z-index: 100; }
         .img-container { background: white; border-radius: 18px; margin-bottom: 1rem; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 200px; width: 100%; }
         
-        .cart-float { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: #0ea5e9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 10px 25px rgba(14, 165, 233, 0.5); cursor: pointer; z-index: 90; transition: 0.3s; }
+        .cart-float { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: #0ea5e9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 10px 25px rgba(14, 165, 233, 0.5); cursor: pointer; z-index: 90; transition: 0.3s; color: white; }
         .cart-count { position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; font-size: 12px; font-weight: bold; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--bg-dark); }
     </style>
 </head>
@@ -41,11 +48,16 @@
         🔥 PROMOÇÃO DE ANO NOVO: USE O CUPOM <span class="bg-white text-blue-600 px-2 rounded ml-1">JARDSON25</span> PARA R$ 25 OFF!
     </div>
 
-    <nav class="fixed w-full z-[80] nav-blur top-8 py-4 px-8 flex justify-between items-center">
-        <span class="text-xl font-black tracking-tighter">JARDSON <span class="text-sky-500">IMPORTS</span></span>
+    <nav class="fixed w-full z-[80] nav-blur top-8 py-2 px-8 flex justify-between items-center">
+        <div class="flex items-center gap-4">
+            <div class="logo-box">
+                <img src="https://files.catbox.moe/8ytxl8.png" class="logo-img-clean" alt="Logo">
+            </div>
+            <span class="text-xl font-black tracking-tighter">JARDSON <span class="text-sky-500">IMPORTS</span></span>
+        </div>
         <div class="flex items-center gap-4">
             <span class="hidden md:block text-[10px] font-bold text-green-500 uppercase"><i class="fas fa-truck mr-1"></i> Frete Grátis</span>
-            <a href="https://api.whatsapp.com/send?phone=5596991557184" class="text-sky-500 text-xl"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://api.whatsapp.com/send?phone=5596991557184" class="text-sky-500 text-2xl"><i class="fab fa-whatsapp"></i></a>
         </div>
     </nav>
 
@@ -54,12 +66,12 @@
         <div id="cart-count" class="cart-count">0</div>
     </div>
 
-    <header class="pt-48 pb-10 px-6 text-center">
-        <h1 class="text-4xl md:text-6xl font-black mb-6 tracking-tight" data-aos="fade-up">COMPRE HOJE!,<br><span class="text-sky-500 italic">RECEBA HOJE NA SUA CASA..</span></h1>
+    <header class="pt-64 pb-10 px-6 text-center">
+        <h1 class="text-4xl md:text-6xl font-black mb-10 tracking-tight" data-aos="fade-up">COMPRE HOJE!,<br><span class="text-sky-500 italic">RECEBA HOJE NA SUA CASA..</span></h1>
         
         <div class="max-w-md mx-auto glass p-1 rounded-2xl flex items-center px-4 mb-8" data-aos="fade-up">
             <i class="fas fa-search text-slate-500 mr-3"></i>
-            <input type="text" id="searchInput" placeholder="O que você deseja comprar?" class="bg-transparent w-full outline-none text-sm py-3 text-white">
+            <input type="text" id="searchInput" onkeyup="searchProduct()" placeholder="O que você deseja comprar?" class="bg-transparent w-full outline-none text-sm py-3 text-white">
         </div>
 
         <div class="flex overflow-x-auto gap-2 max-w-5xl mx-auto pb-4 category-scroll justify-start md:justify-center px-4" data-aos="fade-up">
@@ -100,7 +112,7 @@
     </div>
 
     <div id="checkout-modal" class="fixed inset-0 flex items-center justify-center p-4">
-        <div class="modal-content glass p-6 rounded-[30px] w-full max-w-lg relative max-h-[90vh] overflow-y-auto">
+        <div class="glass p-6 rounded-[30px] w-full max-w-lg relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-500"><i class="fas fa-times"></i></button>
             
             <div id="step-1">
@@ -131,9 +143,9 @@
                     <img src="https://quickchart.io/qr?text=00020126360014br.gov.bcb.pix0114%2B55969915571845204000053039865802BR5915Edmir%20S%20Batista6015Laranjal%20D%20Jari622905255kSJ3Pd5sCrlyDpsLAhlgxU6r6304FE47&size=180" class="w-40 mx-auto">
                 </div>
                 <p class="text-[10px] text-sky-500 mb-4 cursor-pointer font-bold" onclick="copyPix()">
-                    Chave: <span id="pix-key-text">00020126360014br.gov.bcb.pix0114+55969915571845204000053039865802BR5915Edmir S Batista6015Laranjal D Jari622905255kSJ3Pd5sCrlyDpsLAhlgxU6r6304FE47</span><br>(Clique para copiar)
+                    Chave: <span id="pix-key-text">5596991557184</span><br>(Clique para copiar)
                 </p>
-                <button onclick="sendOrder()" class="btn-gradient w-full py-4 rounded-xl bg-green-600 !text-white !bg-green-600">Enviar Comprovante no WhatsApp</button>
+                <button onclick="sendOrder()" class="btn-gradient w-full py-4 rounded-xl !bg-green-600">Enviar Comprovante no WhatsApp</button>
             </div>
         </div>
     </div>
@@ -245,7 +257,7 @@
                 <div class="product-card p-4 flex flex-col" data-aos="fade-up">
                     ${p.promo ? '<span class="discount-badge">OFERTA DO DIA</span>' : ''}
                     <div class="img-container">
-                        <img src="${p.image || 'https://via.placeholder.com/300?text=Sem+Foto'}" alt="${p.name}" class="max-h-full max-w-full p-2 object-contain">
+                        <img src="${p.image}" alt="${p.name}" class="max-h-full max-w-full p-2 object-contain">
                     </div>
                     <div class="flex-grow">
                         <h3 class="text-sm font-bold h-10 line-clamp-2">${p.name}</h3>
@@ -255,6 +267,12 @@
                     <button onclick="addToCart(${p.id})" class="btn-gradient w-full py-3 rounded-xl text-xs uppercase mt-6">Adicionar ao Carrinho</button>
                 </div>
             `).join('');
+        }
+
+        function searchProduct() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = products.filter(p => p.name.toLowerCase().includes(term));
+            render(filtered);
         }
 
         function addToCart(id) {
@@ -271,15 +289,14 @@
             const container = document.getElementById('cart-items');
             const emptyMsg = document.getElementById('cart-empty-msg');
             const totalDisplay = document.getElementById('cart-total-price');
+            
             if (cart.length === 0) {
                 container.innerHTML = "";
                 emptyMsg.classList.remove('hidden');
                 document.getElementById('btn-go-checkout').disabled = true;
-                document.getElementById('btn-go-checkout').style.opacity = "0.5";
             } else {
                 emptyMsg.classList.add('hidden');
                 document.getElementById('btn-go-checkout').disabled = false;
-                document.getElementById('btn-go-checkout').style.opacity = "1";
                 container.innerHTML = cart.map(item => `
                     <div class="flex items-center gap-4 bg-white/5 p-3 rounded-2xl border border-white/5">
                         <img src="${item.image}" class="w-16 h-16 object-contain bg-white rounded-lg p-1">
@@ -316,16 +333,15 @@
 
         function openCart() { document.getElementById('cart-modal').style.display = 'flex'; }
         function closeCart() { document.getElementById('cart-modal').style.display = 'none'; }
+        function closeModal() { document.getElementById('checkout-modal').style.display = 'none'; }
 
         function goToCheckout() {
             closeCart();
             const summary = document.getElementById('prod-resumo');
-            summary.innerHTML = cart.map(item => `<div>• ${item.qty}x ${item.name} - R$ ${(item.price * item.qty).toLocaleString('pt-BR')}</div>`).join('');
+            summary.innerHTML = cart.map(item => `<div>• ${item.qty}x ${item.name}</div>`).join('');
             discount = 0;
             updateTotal();
             document.getElementById('checkout-modal').style.display = 'flex';
-            document.getElementById('step-1').classList.remove('hidden');
-            document.getElementById('step-2').classList.add('hidden');
         }
 
         function applyCoupon() {
@@ -333,12 +349,12 @@
             const msg = document.getElementById('coupon-msg');
             if(code === 'JARDSON25') {
                 discount = 25; 
-                msg.innerText = "✅ CUPOM APLICADO! R$ 25,00 de desconto.";
-                msg.className = "text-[10px] mt-1 text-green-500 font-bold";
+                msg.innerText = "✅ CUPOM APLICADO!";
+                msg.className = "text-green-500 font-bold text-[10px]";
             } else {
                 discount = 0;
-                msg.innerText = "❌ Cupom inválido.";
-                msg.className = "text-[10px] mt-1 text-red-500 font-bold";
+                msg.innerText = "❌ INVÁLIDO";
+                msg.className = "text-red-500 font-bold text-[10px]";
             }
             updateTotal();
         }
@@ -349,11 +365,10 @@
             document.getElementById('final-price').innerText = `R$ ${final.toLocaleString('pt-BR')}`;
         }
 
-        function closeModal() { document.getElementById('checkout-modal').style.display = 'none'; }
         function nextStep(e) { e.preventDefault(); document.getElementById('step-1').classList.add('hidden'); document.getElementById('step-2').classList.remove('hidden'); }
+
         function copyPix() {
-            const key = document.getElementById('pix-key-text').innerText;
-            navigator.clipboard.writeText(key);
+            navigator.clipboard.writeText("5596991557184");
             alert("Chave PIX copiada!");
         }
 
@@ -363,6 +378,7 @@
             const num = document.getElementById('cust_num').value;
             const bairro = document.getElementById('cust_bairro').value;
             const ref = document.getElementById('cust_ref').value || 'Não informado';
+            
             const totalProd = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
             const valorFinal = totalProd - discount;
             let itensLista = cart.map(item => `• ${item.qty}x ${item.name}`).join('\n');
@@ -370,7 +386,7 @@
             const mensagem = `🚀 *NOVO PEDIDO - JARDSON IMPORTS*\n\n` +
                 `📦 *ITENS:*\n${itensLista}\n\n` +
                 `💰 *TOTAL:* R$ ${valorFinal.toLocaleString('pt-BR')}\n` +
-                `${discount > 0 ? '🎟️ *CUPOM:* JARDSON25\n' : ''}` +
+                `🎟️ *CUPOM:* ${discount > 0 ? 'JARDSON25' : 'Nenhum'}\n` +
                 `----------------------------\n` +
                 `👤 *CLIENTE:* ${nome}\n` +
                 `📍 *ENDEREÇO:* ${rua}, Nº ${num}\n` +
@@ -387,10 +403,6 @@
             if(category === 'todos') render(products);
             else render(products.filter(p => p.category === category));
         }
-
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            render(products.filter(p => p.name.toLowerCase().includes(e.target.value.toLowerCase())));
-        });
 
         render();
     </script>

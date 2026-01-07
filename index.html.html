@@ -45,7 +45,7 @@
 <body class="antialiased">
 
     <div class="promo-banner fixed w-full z-[100] top-0">
-        🔥 USE O CUPOM <span class="bg-white text-blue-600 px-2 rounded ml-1">JARDSON25</span> PARA R$ 25 OFF!
+        🔥 PROMOÇÃO DE ANO NOVO: USE O CUPOM <span class="bg-white text-blue-600 px-2 rounded ml-1">JARDSON25</span> PARA R$ 25 OFF!
     </div>
 
     <nav class="fixed w-full z-[80] nav-blur top-8 py-2 px-8 flex justify-between items-center">
@@ -372,29 +372,74 @@
             alert("Chave PIX copiada!");
         }
 
-        function sendOrder() {
-            const nome = document.getElementById('cust_name').value;
-            const rua = document.getElementById('cust_street').value;
-            const num = document.getElementById('cust_num').value;
-            const bairro = document.getElementById('cust_bairro').value;
-            const ref = document.getElementById('cust_ref').value || 'Não informado';
-            
-            const totalProd = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-            const valorFinal = totalProd - discount;
-            let itensLista = cart.map(item => `• ${item.qty}x ${item.name}`).join('\n');
+       function sendOrder() {
+    // Captura de Dados
+    const nome = document.getElementById('cust_name').value;
+    const rua = document.getElementById('cust_street').value;
+    const num = document.getElementById('cust_num').value;
+    const bairro = document.getElementById('cust_bairro').value;
+    const ref = document.getElementById('cust_ref').value || 'Não informado';
+    
+    // Dados Automáticos
+    const agora = new Date();
+    const dataPedido = agora.toLocaleDateString('pt-BR');
+    const horarioPedido = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    const numPedido = Math.floor(1000 + Math.random() * 9000); // Gera ID aleatório
 
-            const mensagem = `🚀 *NOVO PEDIDO - JARDSON IMPORTS*\n\n` +
-                `📦 *ITENS:*\n${itensLista}\n\n` +
-                `💰 *TOTAL:* R$ ${valorFinal.toLocaleString('pt-BR')}\n` +
-                `🎟️ *CUPOM:* ${discount > 0 ? 'JARDSON25' : 'Nenhum'}\n` +
-                `----------------------------\n` +
-                `👤 *CLIENTE:* ${nome}\n` +
-                `📍 *ENDEREÇO:* ${rua}, Nº ${num}\n` +
-                `🏘️ *BAIRRO:* ${bairro}\n` +
-                `🔍 *REF:* ${ref}\n\n` +
-                `📸 *ENVIANDO COMPROVANTE...*`;
+    // Cálculos Financeiros
+    const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+    const frete = 0.00; // Como está como "Entrega Grátis" no site
+    const valorFinal = subtotal - discount;
 
-            window.open(`https://api.whatsapp.com/send?phone=5596991557184&text=${encodeURIComponent(mensagem)}`, '_blank');
+    // Formatação da Lista de Itens
+    let itensLista = cart.map(item => 
+        `• Produto: ${item.name}\n  └ Quantidade: ${item.qty}\n  └ Valor Unitário: R$ ${item.price.toLocaleString('pt-BR')}`
+    ).join('\n\n');
+
+    // Montagem da Mensagem
+    const mensagem = `🚀 *NOVO PEDIDO - JARDSON IMPORTS*
+
+📅 *DATA DO PEDIDO:* ${dataPedido}
+⏰ *HORÁRIO:* ${horarioPedido}
+🆔 *Nº DO PEDIDO:* #${numPedido}
+
+📦 *ITENS DO PEDIDO:*
+${itensLista}
+
+💳 *FORMA DE PAGAMENTO:* PIX
+🎟️ *CUPOM APLICADO:* ${discount > 0 ? 'JARDSON25' : 'Nenhum'}
+💸 *DESCONTO:* R$ ${discount.toLocaleString('pt-BR')}
+
+🚚 *ENTREGA*
+📍 Endereço: ${rua}, Nº ${num}
+🏘️ Bairro: ${bairro}
+🏙️ Cidade/UF: Laranjal do Jari / AP
+📮 CEP: 68920-000
+🔍 Referência: ${ref}
+📦 Tipo de Entrega: Motoboy (Grátis)
+
+💰 *RESUMO FINANCEIRO*
+🛒 Subtotal: R$ ${subtotal.toLocaleString('pt-BR')}
+🚚 Frete: R$ ${frete.toLocaleString('pt-BR')}
+💸 Desconto: R$ ${discount.toLocaleString('pt-BR')}
+💰 *TOTAL A PAGAR:* R$ ${valorFinal.toLocaleString('pt-BR')}
+
+👤 *DADOS DO CLIENTE*
+Nome: ${nome}
+
+📸 *STATUS DO PAGAMENTO:*
+
+*COMPROVANTE PARA CONFIRMAR COMPRA!*
+
+
+🙏 *OBRIGADO PELA PREFERÊNCIA!*
+
+*JARDSON IMPORTS – QUALIDADE E CONFIANÇA*`;
+
+    // Envio para o WhatsApp
+    const fone = "5596991557184";
+    window.open(`https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(mensagem)}`, '_blank');
+
         }
 
         function filterByCategory(category, btn) {

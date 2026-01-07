@@ -55,7 +55,7 @@
     </div>
 
     <header class="pt-48 pb-10 px-6 text-center">
-        <h1 class="text-4xl md:text-6xl font-black mb-6 tracking-tight" data-aos="fade-up">COMPRE HOJE!,<br><span class="text-sky-500 italic">RECEBA HOJE NA SUA CASA.</span></h1>
+        <h1 class="text-4xl md:text-6xl font-black mb-6 tracking-tight" data-aos="fade-up">COMPRE HOJE!,<br><span class="text-sky-500 italic">RECEBA HOJE NA SUA CASA..</span></h1>
         
         <div class="max-w-md mx-auto glass p-1 rounded-2xl flex items-center px-4 mb-8" data-aos="fade-up">
             <i class="fas fa-search text-slate-500 mr-3"></i>
@@ -65,7 +65,10 @@
         <div class="flex overflow-x-auto gap-2 max-w-5xl mx-auto pb-4 category-scroll justify-start md:justify-center px-4" data-aos="fade-up">
             <button onclick="filterByCategory('todos', this)" class="category-btn active">Todos</button>
             <button onclick="filterByCategory('iphone', this)" class="category-btn">iPhone</button>
+            <button onclick="filterByCategory('samsung', this)" class="category-btn">Samsung</button>
             <button onclick="filterByCategory('xiaomi', this)" class="category-btn">Xiaomi</button>
+            <button onclick="filterByCategory('tablet', this)" class="category-btn">Tablet</button>
+            <button onclick="filterByCategory('realme', this)" class="category-btn">Realme</button>
             <button onclick="filterByCategory('som', this)" class="category-btn">Som</button>
             <button onclick="filterByCategory('tv', this)" class="category-btn">TV & Box</button>
             <button onclick="filterByCategory('games', this)" class="category-btn">Games</button>
@@ -143,18 +146,32 @@
 
         const products = [
             // IPHONES
-            { id: 1, name: "Apple iPhone 17 Pro (256 GB) - Laranja", price: 8900, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/51nj2ICJyeL._AC_SX342_.jpg" },
-            { id: 2, name: "Apple iPhone 16 Pro Max (256 GB) - Titânio", price: 6500, promo: false, category: "iphone", image: "https://m.media-amazon.com/images/I/61ZYQoH3-hL._AC_SX342_.jpg" },
-            { id: 3, name: "Apple iPhone 15 Pro (256 GB) - Titânio Natural", price: 6500, promo: false, category: "iphone", image: "https://m.media-amazon.com/images/I/81gTH9iEn+L._AC_SY450_.jpg" },
-            { id: 4, name: "Apple iPhone 14 Pro Max (256 GB) - Roxo", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/518bzP8VW1L._AC_SX679_.jpg" },
-            { id: 5, name: "Apple iPhone 13 Pro Max (128 GB) - Azul Sierra", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/41yGCey9asL._AC_SX342_.jpg" },
-            { id: 6, name: "iphone 11 128gb cores disponiveis", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/8137-r7lskL._AC_SX522_.jpg" },
-            { id: 7, name: "Apple iPhone 12 (128GB) - Roxo", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/51Gd7SNm7NL._AC_SX342_.jpg" },
-            { id: 8, name: "Apple iPhone 13 (128 GB) - Luz das estrelas", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/41Zbbl4P+LL._AC_SY450_.jpg" },
-            { id: 9, name: "Apple iPhone 14 Plus (128 GB) – Roxo", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/61YSNhAb00L._AC_SY450_.jpg" },
-            { id: 10, name: "Apple iPhone 15 Plus (256 GB) — Preto", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/416MG51rNgL._AC_SX342_.jpg" },
-            { id: 11, name: "Apple iPhone 16 (256 GB) – Rosa", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/71Z-rd+PWgL._AC_SX342_.jpg" },
-            
+            { id: 1, name: "Apple iPhone 17 Pro Max (256 GB) Laranja cósmico", price: 10099, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/51nj2ICJyeL._AC_SX342_.jpg" },
+            { id: 51, name: "Apple iPhone 17 Pro (256 GB) Azul intenso", price: 8800, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/41uMcSPiYAL._AC_SX342_.jpg" },
+            { id: 6, name: "iphone 11 128gb cores disponiveis", price: 2899, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/8137-r7lskL._AC_SX522_.jpg" },
+            { id: 8, name: "Apple iPhone 13 (128 GB) Luz das estrelas", price: 3599, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/41Zbbl4P+LL._AC_SY450_.jpg" },
+            { id: 9, name: "Apple iPhone 14 (128 GB) Roxo", price: 4200, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/61YSNhAb00L._AC_SY450_.jpg" },
+            { id: 10, name: "Apple iPhone 15 (256 GB) Preto", price: 4700, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/416MG51rNgL._AC_SX342_.jpg" },
+            { id: 11, name: "Apple iPhone 16 (256 GB) Rosa", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/71Z-rd+PWgL._AC_SX342_.jpg" },
+
+
+            // TABLET
+            { id: 40, name: "Xiaomi Redmi Pad SE Tablet 4 GB de RAM, 128 GB,bateria de 8000 mAh", price: 1300, promo: true, category: "tablet", image: "https://m.media-amazon.com/images/I/51hiI7caFTL._AC_SX679_.jpg" },
+            { id: 41, name: "Xiaomi Redmi Pad 2 Tablet 256 GB 4 GB RAM bateria de 9000mAh)", price: 1600, promo: true, category: "tablet", image: "https://m.media-amazon.com/images/I/51UwJjhKBtL._AC_.jpg" },
+            { id: 42, name: "Tableta Xiaomi Redmi Pad Pro 128GB 6GB de RAM", price: 1800, promo: true, category: "tablet", image: "https://m.media-amazon.com/images/I/61tg5oDlrmL._AC_SX679_.jpg" },
+
+           
+            // samsung
+            { id: 20, name: "Samsung Galaxy S24 Ultra 256GB", price: 6900, promo: true, category: "samsung", image: "https://m.media-amazon.com/images/I/71ZJ6wYwYGL._AC_SX425_.jpg" },
+            { id: 21, name: "Samsung Galaxy S24 128GB", price: 4200, promo: true, category: "samsung", image: "https://m.media-amazon.com/images/I/61bK6PMOC3L._AC_SX425_.jpg" },
+            { id: 22, name: "Samsung Galaxy S23 FE 128GB", price: 2900, promo: true, category: "samsung", image: "https://m.media-amazon.com/images/I/61kXQ1f5pUL._AC_SX425_.jpg" },
+            { id: 23, name: "Samsung Galaxy A55 5G 128GB", price: 2100, promo: true, category: "samsung", image: "https://m.media-amazon.com/images/I/61+Q6Rh3OEL._AC_SX425_.jpg" },
+            { id: 24, name: "Samsung Galaxy A35 5G 128GB", price: 1700, promo: false, category: "samsung", image: "https://m.media-amazon.com/images/I/61cS3Gz3ZVL._AC_SX425_.jpg" },
+            { id: 25, name: "Samsung Galaxy A15 128GB", price: 1100, promo: false, category: "samsung", image: "https://m.media-amazon.com/images/I/61kJ8xGJ9pL._AC_SX425_.jpg" },
+            { id: 26, name: "Samsung Galaxy Z Flip 5 256GB", price: 4800, promo: true, category: "samsung", image: "https://m.media-amazon.com/images/I/71i3wYJYyGL._AC_SX425_.jpg" },
+            { id: 27, name: "Samsung Galaxy Z Fold 5 512GB", price: 8900, promo: true, category: "samsung", image: "https://m.media-amazon.com/images/I/71cR5rZ2pVL._AC_SX425_.jpg" },
+
+             
             // SOM
             { id: 12, name: "JBL Boombox 3 Bluetooth - Preto", price: 2100, promo: true, category: "som", image: "https://m.media-amazon.com/images/I/51x0NvQUgbL._AC_SY450_.jpg" },
             { id: 13, name: "JBL PartyBox Club 120 - 160W RMS", price: 2100, promo: true, category: "som", image: "https://m.media-amazon.com/images/I/516wzBmSReL._AC_SY450_.jpg" },
@@ -181,6 +198,12 @@
             { id: 32, name: "POCO X6 Pro - Dimensity 8300 Ultra", price: 2400, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71yZf6OZrZL._AC_SX425_.jpg" },
             { id: 33, name: "POCO X6 - AMOLED 120Hz", price: 1900, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61d2z5vPqPL._AC_SX425_.jpg" },
             { id: 34, name: "POCO M6 Pro - Custo benefício", price: 1500, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61Yp9J7p6IL._AC_SX425_.jpg" },
+
+            // REALME
+            { id: 66, name: "Celular Realme C75 Dual SIM 8GB RAM 256GB", price: 1600, promo: true, category: "realme", image: "https://m.media-amazon.com/images/I/51k5Y5TU0QL._AC_SX425_.jpg" },
+            { id: 67, name: "Celular Realme C75x 128gb 6gb Ram", price: 1450, promo: true, category: "realme", image: "https://m.media-amazon.com/images/I/61MlIxovHeL._AC_SY300_SX300_QL70_ML2_.jpg" },
+            { id: 66, name: "Realme Note 50-128GB 4GB Ram", price: 899, promo: true, category: "realme", image: "https://m.media-amazon.com/images/I/61sg9UK4lML._AC_SX679_.jpg" },
+            { id: 67, name: "Realme Note 60-128GB 4 GB Ram", price: 1000, promo: true, category: "realme", image: "https://m.media-amazon.com/images/I/61gcExNZfXL._AC_SX679_.jpg" },
 
             // GAMES
             { id: 35, name: "PlayStation®5 Slim Edição Digital", price: 150, promo: false, category: "games", image: "https://m.media-amazon.com/images/I/71ANJQTALWL._AC_SX679_.jpg" },

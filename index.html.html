@@ -47,7 +47,7 @@
     </nav>
 
     <header class="pt-48 pb-10 px-6 text-center">
-        <h1 class="text-4xl md:text-6xl font-black mb-6 tracking-tight" data-aos="fade-up">COMPRE HOJE,<br><span class="text-sky-500 italic">RECEBA HOJE MESMO!</span></h1>
+        <h1 class="text-4xl md:text-6xl font-black mb-6 tracking-tight" data-aos="fade-up">COMPRE HOJE!,<br><span class="text-sky-500 italic">RECEBA HOJE NA SUA CASA.</span></h1>
         
         <div class="max-w-md mx-auto glass p-1 rounded-2xl flex items-center px-4 mb-8" data-aos="fade-up">
             <i class="fas fa-search text-slate-500 mr-3"></i>
@@ -61,6 +61,7 @@
             <button onclick="filterByCategory('som', this)" class="category-btn">Som</button>
             <button onclick="filterByCategory('tv', this)" class="category-btn">TV & Box</button>
             <button onclick="filterByCategory('games', this)" class="category-btn">Games</button>
+            <button onclick="filterByCategory('camera', this)" class="category-btn">camera</button>
             <button onclick="filterByCategory('outros', this)" class="category-btn">Outros</button>
         </div>
     </header>
@@ -137,16 +138,37 @@
             { name: "Basike Fone de Ouvido Bluetooth TWS", price: 150, promo: false, category: "som", image: "https://m.media-amazon.com/images/I/51auQNthvnL._AC_SX522_.jpg" },
 
             // XIAOMI
-            { name: "Xiaomi Poco X7 Pro 5G 256GB Yellow", price: 2900, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61wln8y-YUL._AC_SX425_.jpg" },
-            { name: "Xiaomi Poco X7 5G Green 12GB", price: 150, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/41Em2kQYciL._AC_SY355_.jpg" },
-            { name: "Xiaomi Redmi Note 14 4G Black", price: 150, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/51KNL7MMw6L._AC_SX522_.jpg" },
-            { name: "Xiaomi Poco C75 NFC 256GB", price: 150, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/51YBYxx9opL._AC_SX425_.jpg" },
-            { name: "Xiaomi Redmi Note 14 Pro 5G", price: 150, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/51AelgZWpaL._AC_SX425_.jpg" },
+              { name: "Xiaomi 14 Ultra - Snapdragon 8 Gen 3, câmera Leica", price: 6900, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71ZQmN0Q0CL._AC_SX425_.jpg" },
+              { name: "Xiaomi 14 Pro - AMOLED 120Hz, Snapdragon 8 Gen 3", price: 5900, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71c8y9g7FEL._AC_SX425_.jpg" },
+              { name: "Xiaomi 14 - Compacto premium, Snapdragon 8 Gen 3", price: 4900, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61y2VVWcJHL._AC_SX425_.jpg" },
+              { name: "Xiaomi 13 Ultra - Câmera profissional Leica", price: 5200, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71X7kQp8Y7L._AC_SX425_.jpg" },
+              { name: "Xiaomi 13 Pro - Snapdragon 8 Gen 2", price: 4200, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61WZ0a9pXlL._AC_SX425_.jpg" },
+              { name: "Xiaomi 13 - AMOLED 120Hz, premium", price: 3800, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61wln8y-YUL._AC_SX425_.jpg" },
+              { name: "Redmi Note 13 Pro+ 5G - 200MP, AMOLED", price: 2900, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71yN1n0x6ML._AC_SX425_.jpg" },
+              { name: "Redmi Note 13 Pro 5G - 200MP", price: 2500, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71Z2z5nW3ZL._AC_SX425_.jpg" },
+              { name: "Redmi Note 13 - AMOLED 120Hz", price: 1800, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61pK5Gk2qEL._AC_SX425_.jpg" },
+              { name: "Redmi Note 12 Pro 5G - Câmera 50MP OIS", price: 2100, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61H6g5xN1IL._AC_SX425_.jpg" },
+              { name: "Redmi Note 12 - AMOLED", price: 1400, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61S6x9Oa1UL._AC_SX425_.jpg" },
+              { name: "Redmi 13C - Básico com boa bateria", price: 900, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61B0+qQriPL._AC_SX425_.jpg" },
+              { name: "Redmi 12 - Tela grande e econômico", price: 1000, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61l7fG3vH0L._AC_SX425_.jpg" },
+              { name: "Redmi 10C - Entrada", price: 800, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61x9gT5Tz7L._AC_SX425_.jpg" },
+              { name: "POCO F6 Pro - Snapdragon topo de linha", price: 3500, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71QzJzXK6UL._AC_SX425_.jpg" },
+              { name: "POCO F5 - Snapdragon 7+ Gen 2", price: 2900, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61VxZz6J2qL._AC_SX425_.jpg" },
+              { name: "POCO X6 Pro - Dimensity 8300 Ultra", price: 2400, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/71yZf6OZrZL._AC_SX425_.jpg" },
+              { name: "POCO X6 - AMOLED 120Hz", price: 1900, promo: false, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61d2z5vPqPL._AC_SX425_.jpg" },
+              { name: "POCO M6 Pro - Custo benefício", price: 1500, promo: true, category: "xiaomi", image: "https://m.media-amazon.com/images/I/61Yp9J7p6IL._AC_SX425_.jpg" },
+
 
             // GAMES
             { name: "PlayStation®5 Slim Edição Digital", price: 150, promo: false, category: "games", image: "https://m.media-amazon.com/images/I/71ANJQTALWL._AC_SX679_.jpg" },
             { name: "Nintendo Switch 2", price: 150, promo: false, category: "games", image: "https://m.media-amazon.com/images/I/61XUxyAtX3L._AC_SX522_.jpg" },
-            { name: "R36S Retro Handheld 128GB", price: 150, promo: false, category: "games", image: "https://m.media-amazon.com/images/I/61DVS27PObL._AC_SX569_.jpg" },
+            { name: "R36S Retro Handheld 128GB", price: 150, promo: false, category: "games", image: "https://m.media-amazon.com/images/I/61DVS27PObL._AC_SX569_.jpg" }, 
+      
+           // CÂMERA DE SEGURANÇA
+           { name: "Câmera Vigilância IP Externa", price: 150, promo: false, category: "camera", image: "..." },
+           { name: "Câmera Lâmpada Wifi 360°", price: 150, promo: false, category: "camera", image: "..." },
+           { name: "Mini Câmera Espiã A9 Full HD", price: 150, promo: false, category: "camera", image: "..." },
+
 
             // TV & STREAMING
             { name: "Unitv v10 Full HD 4k 5G", price: 150, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/61vh-qTp2BL._AC_SY450_.jpg" },
@@ -160,11 +182,8 @@
             // OUTROS
             { name: "Airfryer Philips Walita Digital", price: 150, promo: false, category: "outros", image: "https://m.media-amazon.com/images/I/51USP1yVx+L._AC_SY450_.jpg" },
             { name: "Creatine Turbo Black Skull 300g", price: 150, promo: false, category: "outros", image: "https://m.media-amazon.com/images/I/6165ojDGBPL._AC_SX679_.jpg" },
-            { name: "Câmera Vigilância IP Externa", price: 150, promo: false, category: "outros", image: "https://m.media-amazon.com/images/I/51PaDC3dLZL._AC_SX679_.jpg" },
-            { name: "Câmera Lâmpada Wifi 360°", price: 150, promo: false, category: "outros", image: "https://m.media-amazon.com/images/I/615D+88TvDL._AC_SX679_.jpg" },
-            { name: "Mini Câmera Espiã A9 Full HD", price: 150, promo: false, category: "outros", image: "https://m.media-amazon.com/images/I/515sLagL1jL._AC_SX679_.jpg" },
             { name: "Projetor Portátil HY320 Android 13", price: 150, promo: false, category: "outros", image: "https://m.media-amazon.com/images/I/51k+vJCruuL._AC_SX679_.jpg" },
-            { name: "Copo Stanley 473ml Original", price: 150, promo: false, category: "outros", image: "https://m.media-amazon.com/images/I/61ElGpGo5IL._AC_SX679_.jpg" }
+            { name: "Copo Stanley 473ml Original", price: 150, promo: false, category: "outros", image: "https://m.media-amazon.com/images/I/61ElGpGo5IL._AC_SX679_.jpg" },
 
         ];
 

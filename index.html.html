@@ -85,6 +85,7 @@
             <button onclick="filterByCategory('motorola', this)" class="category-btn">Motorola</button>
             <button onclick="filterByCategory('tv', this)" class="category-btn">TV & Box</button>
             <button onclick="filterByCategory('games', this)" class="category-btn">Games</button>
+            <button onclick="filterByCategory('acessorios', this)" class="category-btn">Acessorios</button>
             <button onclick="filterByCategory('outros', this)" class="category-btn">Outros</button>
         </div>
     </header>
@@ -163,8 +164,8 @@
             { id: 6, name: "iphone 11 128gb cores disponiveis", price: 2899, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/8137-r7lskL._AC_SX522_.jpg" },
             { id: 8, name: "Apple iPhone 13 (128 GB) Luz das estrelas", price: 3599, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/41Zbbl4P+LL._AC_SY450_.jpg" },
             { id: 9, name: "Apple iPhone 14 (128 GB) Roxo", price: 4200, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/61YSNhAb00L._AC_SY450_.jpg" },
-            { id: 10, name: "Apple iPhone 15 (256 GB) Preto", price: 4700, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/416MG51rNgL._AC_SX342_.jpg" },
-            { id: 11, name: "Apple iPhone 16 (256 GB) Rosa", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/71Z-rd+PWgL._AC_SX342_.jpg" },
+            { id: 10, name: "Apple iPhone 15 (128 GB) Preto", price: 4700, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/416MG51rNgL._AC_SX342_.jpg" },
+            { id: 11, name: "Apple iPhone 16 (128 GB) Rosa", price: 2850, promo: true, category: "iphone", image: "https://m.media-amazon.com/images/I/71Z-rd+PWgL._AC_SX342_.jpg" },
 
 
             // TABLET
@@ -212,6 +213,14 @@
             { id: 69, name: "Realme Note 60 128GB 4 GB Ram", price: 1000, promo: true, category: "realme", image: "https://m.media-amazon.com/images/I/61gcExNZfXL._AC_SX679_.jpg" },
             { id: 81, name: "Realme C65 4G 256GB 8GB Ram", price: 1300, promo: true, category: "realme", image: "https://m.media-amazon.com/images/I/61Sunu8K4TL._AC_SX679_.jpg" },
             { id: 82, name: "Realme C63-128GB 6GB Ram Câmera 50MP  Bateria 5000mAh  Tela de 6,74", price: 1250, promo: true, category: "realme", image: "https://m.media-amazon.com/images/I/61HEZLUX1mL._AC_SX679_.jpg" },
+
+            // ACESSORIOS 
+            { id: 91, name: "Creatine Turbo Black Skull 300g", price: 150, promo: false, category: "acessorios", image: "https://m.media-amazon.com/images/I/6165ojDGBPL._AC_SX679_.jpg" },
+            { id: 92, name: "Projetor Portátil HY320 Android 13", price: 150, promo: false, category: "acessorios", image: "https://m.media-amazon.com/images/I/51k+vJCruuL._AC_SX679_.jpg" },
+            { id: 93, name: "Copo Stanley 473ml Original", price: 150, promo: false, category: "acessorios", image: "https://m.media-amazon.com/images/I/61ElGpGo5IL._AC_SX679_.jpg" },
+            { id: 94, name: "Câmera Vigilância IP Externa", price: 150, promo: false, category: "acessorios", image: "https://m.media-amazon.com/images/I/61pD7x2fC3L._AC_SX522_.jpg" },
+            { id: 95, name: "Câmera Lâmpada Wifi 360°", price: 150, promo: false, category: "acessorios", image: "https://m.media-amazon.com/images/I/51pWp6fK82L._AC_SX522_.jpg" },
+            { id: 96, name: "Mini Câmera Espiã A9 Full HD", price: 150, promo: false, category: "acessorios", image: "https://m.media-amazon.com/images/I/51V66U9L1sL._AC_SX522_.jpg" },
             
             // GAMES
             { id: 35, name: "PlayStation®5 Slim Edição Digital", price: 3600, promo: false, category: "games", image: "https://m.media-amazon.com/images/I/71ANJQTALWL._AC_SX679_.jpg" },
@@ -219,20 +228,21 @@
             { id: 37, name: "R36S Retro Handheld 128GB", price: 150, promo: false, category: "games", image: "https://m.media-amazon.com/images/I/61DVS27PObL._AC_SX569_.jpg" }, 
       
             // TV & STREAMING
-            { id: 41, name: "Unitv v10 Full HD 4k 5G", price: 150, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/61vh-qTp2BL._AC_SY450_.jpg" },
-            { id: 42, name: "Fire TV Stick HD Alexa", price: 150, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/61Lg5RZZFQL._AC_SX679_.jpg" },
-            { id: 43, name: "TV Box MXQ Pro 4K", price: 150, promo: false, category: "tv", image: "https://images-cdn.ubuy.qa/636e41c740493842e3547682-mxq-pro-5g-android-10-1-tv-box-4k-mxq.jpg" },
+           
             { id: 44, name: "Smart TV Aiwa 32”, Android, HD, Borda Ultrafina, HDR10, Dolby Áudio", price: 1400, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/71dubOlKt2L._AC_SX522_.jpg" },
             { id: 45, name: "Smart TV Aiwa 43”, Android, Full HD, Borda Ultrafina, HDR10, Dolby Áudio", price: 1900, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/61R0cdZif8L._AC_SX522_.jpg" },
             { id: 46, name: "Smart TV Aiwa 50”, Android, 4K, Borda Ultrafina, HDR10, Dolby Áudio", price: 2400, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/71WIlpBAYeL._AC_SX522_.jpg" },
             { id: 47, name: "Smart TV AIWA 65” GOOGLE TV 4K Comando de voz Dolby Vision&Atmos", price: 3800, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/615B96JKyhL._AC_SX522_.jpg" },
+            { id: 41, name: "Unitv v10 Full HD 4k 5G", price: 150, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/61vh-qTp2BL._AC_SY450_.jpg" },
             { id: 41, name: "Smart TV TCL 43 Polegadas Full HD QLED S5K WiFi Bluetooth Google TV 2 HDMI HDR10 Dolby Audio 43S5K", price: 2000, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/61vvuSqE3HL._AC_SX522_.jpg" },
             { id: 42, name: "Smart TV TCL 50 Polegadas QLED 4K P7K WiFi Bluetooth Google TV HDR10+ Dolby Atmos Dolby Vision 50P7K", price: 2500, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/816KGIj16bL._AC_SX522_.jpg" },
             { id: 42, name: "Smart TV TCL 55 Polegadas QLED 4K P7K WiFi Bluetooth Google TV HDR10+ Dolby Atmos Dolby Vision 55P7K", price: 2900, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/81TW4lbHMDL._AC_SX522_.jpg" },
             { id: 42, name: "Smart TV TCL 65 Polegadas QLED 4K P7K WiFi Bluetooth Google TV HDR10+ Dolby Atmos Dolby Vision 65P7K", price: 3900, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/818m5AqXyhL._AC_SX522_.jpg" },
+            { id: 42, name: "Fire TV Stick HD Alexa", price: 150, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/61Lg5RZZFQL._AC_SX679_.jpg" },
             { id: 42, name: "Hisense Smart TV UHD 4K QLED 65 Polegadas 65Q7QG Google TV Modo Jogo Pro 144 Hz, AMD FreeSync Premium, Dolby Vision Atmos e Compatível com Alexa", price: 3900, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/81TmTyxhqEL._AC_SX522_.jpg" },
             { id: 42, name: "Hisense Smart TV 4K 75 Polegadas 75A6NV com Dolby Vision, HDR10, HLG, DTS Virtual X, Compatibilidade Alexa e Google Home", price: 4999, promo: false, category: "tv", image: "https://m.media-amazon.com/images/I/81SM5zKmX1L._AC_SX522_.jpg" },
-
+            { id: 43, name: "TV Box MXQ Pro 4K", price: 150, promo: false, category: "tv", image: "https://images-cdn.ubuy.qa/636e41c740493842e3547682-mxq-pro-5g-android-10-1-tv-box-4k-mxq.jpg" },
+            
             // OUTROS
             { id: 48, name: "Airfryer Philips Walita Digital", price: 150, promo: false, category: "outros", image: "https://m.media-amazon.com/images/I/51USP1yVx+L._AC_SY450_.jpg" },
             { id: 49, name: "Creatine Turbo Black Skull 300g", price: 150, promo: false, category: "outros", image: "https://m.media-amazon.com/images/I/6165ojDGBPL._AC_SX679_.jpg" },

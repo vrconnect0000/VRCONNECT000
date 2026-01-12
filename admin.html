@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Restrito | Jardson Imports</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .hidden-admin { display: none; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div id="login-screen" class="fixed inset-0 bg-slate-900 z-[100] flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-[2rem] shadow-2xl w-full max-w-md text-center">
+            <div class="w-20 h-20 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <h2 class="text-2xl font-black mb-2">Acesso Restrito</h2>
+            <p class="text-slate-400 text-sm mb-6">Digite a senha de administrador</p>
+            <input type="password" id="admin-password" placeholder="Sua senha aqui" class="w-full p-4 bg-slate-100 border-none rounded-2xl mb-4 text-center text-xl focus:ring-2 focus:ring-orange-500 outline-none">
+            <button onclick="checkLogin()" class="w-full py-4 bg-orange-600 text-white rounded-2xl font-bold uppercase tracking-widest hover:bg-orange-700 transition-all">
+                Entrar no Painel
+            </button>
+            <p id="login-error" class="text-red-500 text-xs mt-4 font-bold hidden">Senha incorreta! Tente novamente.</p>
+        </div>
+    </div>
+
+    <div id="admin-content" class="hidden-admin">
+        <header class="bg-slate-900 text-white shadow-xl sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+                <h1 class="text-xl font-black text-orange-500 tracking-tighter italic">JARDSON <span class="text-white">IMPORTS</span></h1>
+                <div class="flex items-center gap-4">
+                    <span id="stock-count" class="bg-slate-800 text-[10px] font-bold px-3 py-1 rounded-full border border-slate-700 uppercase tracking-widest">Estoque</span>
+                    <button onclick="logout()" class="text-xs font-bold text-slate-400 hover:text-white underline">Sair</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="max-w-7xl mx-auto px-4 py-8 grid lg:grid-cols-3 gap-8">
+            <section class="lg:col-span-1">
+                <div class="bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-8 sticky top-24">
+                    <h2 class="text-xl font-extrabold mb-6 flex items-center gap-2 text-slate-900">
+                        <i class="fa-solid fa-circle-plus text-orange-500 text-2xl"></i> Novo Produto
+                    </h2>
+                    <form id="product-form" class="space-y-4">
+                        <input type="text" id="name" placeholder="Nome do Produto" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none font-medium">
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="number" id="price" step="0.01" placeholder="Preço (R$)" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none font-bold">
+                            <select id="category" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none font-medium">
+                                <option value="iphone">iPhone</option>
+                                <option value="samsung">Samsung</option>
+                                <option value="xiaomi">Xiaomi</option>
+                                <option value="motorola">Motorola</option>
+                                <option value="realme">Realme</option>
+                                <option value="tablet">Tablet</option>
+                                <option value="som">Som/Caixas</option>
+                                <option value="games">Games</option>
+                                <option value="academia">Academia</option>
+                                <option value="perfumes">Perfumes</option>
+                                <option value="tvbox">TV & Box</option>
+                                <option value="eletrodomesticos">Eletrodomésticos</option>
+                                <option value="acessorios">Acessórios</option>
+                            </select>
+                        </div>
+                        <textarea id="description" placeholder="Descrição rápida..." rows="3" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-orange-500"></textarea>
+                        <div class="bg-orange-50 border-2 border-dashed border-orange-200 rounded-2xl p-4 text-center">
+                            <label class="cursor-pointer">
+                                <i class="fa-solid fa-image text-orange-400 text-2xl mb-2"></i>
+                                <span class="block text-xs font-bold text-orange-700 uppercase">Escolher Foto</span>
+                                <input type="file" id="photo" accept="image/*" class="hidden">
+                                <p id="file-name" class="text-[10px] text-orange-500 mt-1 truncate"></p>
+                            </label>
+                        </div>
+                        <label class="flex items-center gap-3 cursor-pointer p-4 bg-slate-50 rounded-2xl">
+                            <input type="checkbox" id="promo" class="w-6 h-6 accent-orange-500">
+                            <span class="text-sm font-bold text-slate-700">Ativar Selo de Promoção</span>
+                        </label>
+                        <button type="submit" id="btn-save" class="w-full py-5 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl transition-all">
+                            Publicar no Site
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <section class="lg:col-span-2">
+                <div class="bg-white rounded-[2rem] shadow-xl border border-slate-100 overflow-hidden">
+                    <div class="p-8 border-b flex justify-between items-center bg-white">
+                        <h2 class="text-xl font-extrabold text-slate-900">Gerenciar Estoque</h2>
+                        <button onclick="fetchProducts()" class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-orange-500 hover:text-white transition-all">
+                            <i class="fa-solid fa-rotate"></i>
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-50 text-slate-400 text-[10px] uppercase font-black tracking-widest">
+                                <tr>
+                                    <th class="px-8 py-5">Produto</th>
+                                    <th class="px-8 py-5">Preço</th>
+                                    <th class="px-8 py-5 text-center">Promo</th>
+                                    <th class="px-8 py-5 text-center">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="product-list" class="divide-y divide-slate-50"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // CONFIGURAÇÃO DE ACESSO
+        const MASTER_PASSWORD = "123"; // <--- MUDE SUA SENHA AQUI!
+
+        // CONFIGURAÇÃO SUPABASE
+        const SUPABASE_URL = 'https://qqspmuaukoaetilbaflv.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_DN831m2SDg4cVvfn8Vc0pA_VZGfs_9u';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // FUNÇÃO DE LOGIN
+        function checkLogin() {
+            const pass = document.getElementById('admin-password').value;
+            const errorMsg = document.getElementById('login-error');
+            
+            if (pass === MASTER_PASSWORD) {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('admin-content').classList.remove('hidden-admin');
+                fetchProducts(); // Só carrega os dados após logar
+            } else {
+                errorMsg.classList.remove('hidden');
+                document.getElementById('admin-password').value = "";
+            }
+        }
+
+        function logout() {
+            location.reload();
+        }
+
+        // --- RESTANTE DAS FUNÇÕES (FETCH, SAVE, UPDATE, DELETE) ---
+        const form = document.getElementById('product-form');
+        const listContainer = document.getElementById('product-list');
+        const photoInput = document.getElementById('photo');
+
+        photoInput.onchange = () => { document.getElementById('file-name').innerText = photoInput.files[0].name; };
+
+        async function fetchProducts() {
+            const { data, error } = await _supabase.from('produtos').select('*').order('created_at', { ascending: false });
+            if (error) return;
+            document.getElementById('stock-count').innerText = `${data.length} PRODUTOS`;
+            listContainer.innerHTML = data.map(prod => `
+                <tr class="group hover:bg-slate-50/50 transition-all">
+                    <td class="px-8 py-5">
+                        <div class="flex items-center gap-4">
+                            <img src="${prod.images[0]}" class="w-12 h-12 object-cover rounded-xl shadow-md bg-slate-200">
+                            <div><p class="font-bold text-slate-900 mb-1">${prod.name}</p><span class="text-[9px] font-black uppercase text-slate-400 bg-slate-100 px-2 py-0.5 rounded">${prod.category}</span></div>
+                        </div>
+                    </td>
+                    <td class="px-8 py-5">
+                        <button onclick="updatePrice(${prod.id}, ${prod.price})" class="text-orange-600 font-black flex items-center gap-2">
+                            R$ ${prod.price.toLocaleString('pt-br', {minimumFractionDigits: 2})} <i class="fa-solid fa-pen text-[10px]"></i>
+                        </button>
+                    </td>
+                    <td class="px-8 py-5 text-center">
+                        <button onclick="togglePromo(${prod.id}, ${prod.promo})" class="text-xl">
+                            ${prod.promo ? '<i class="fa-solid fa-circle-check text-green-500"></i>' : '<i class="fa-solid fa-circle-xmark text-slate-200"></i>'}
+                        </button>
+                    </td>
+                    <td class="px-8 py-5 text-center">
+                        <button onclick="deleteProduct(${prod.id})" class="w-10 h-10 rounded-xl bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-all">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-save');
+            const file = photoInput.files[0];
+            btn.disabled = true;
+            btn.innerHTML = `PROCESSANDO...`;
+            try {
+                let imageUrls = ['https://via.placeholder.com/400'];
+                if (file) {
+                    const fileName = `${Date.now()}_${file.name}`;
+                    await _supabase.storage.from('fotos-produtos').upload(fileName, file);
+                    const { data: pub } = _supabase.storage.from('fotos-produtos').getPublicUrl(fileName);
+                    imageUrls = [pub.publicUrl];
+                }
+                await _supabase.from('produtos').insert([{
+                    name: document.getElementById('name').value,
+                    price: parseFloat(document.getElementById('price').value),
+                    category: document.getElementById('category').value,
+                    description: document.getElementById('description').value,
+                    promo: document.getElementById('promo').checked,
+                    images: imageUrls
+                }]);
+                form.reset(); fetchProducts(); alert("🚀 Sucesso!");
+            } catch (err) { alert("Erro!"); } 
+            finally { btn.disabled = false; btn.innerHTML = `Publicar no Site`; }
+        };
+
+        async function updatePrice(id, currentPrice) {
+            const newPrice = prompt("Novo preço:", currentPrice);
+            if (!newPrice) return;
+            await _supabase.from('produtos').update({ price: parseFloat(newPrice) }).eq('id', id);
+            fetchProducts();
+        }
+
+        async function togglePromo(id, currentStatus) {
+            await _supabase.from('produtos').update({ promo: !currentStatus }).eq('id', id);
+            fetchProducts();
+        }
+
+        async function deleteProduct(id) {
+            if (confirm("Remover?")) {
+                await _supabase.from('produtos').delete().eq('id', id);
+                fetchProducts();
+            }
+        }
+    </script>
+</body>
+</html>

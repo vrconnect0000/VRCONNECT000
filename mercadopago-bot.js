@@ -15,15 +15,15 @@ async function gerarPixMercadoPago(pedidoInfo) {
         description: `Pedido #${pedidoInfo.numero} - Jardson Imports`,
         payment_method_id: 'pix',
         payer: {
-            email: 'cliente@exemplo.com', // Opcional: capturar do usuário se necessário
+            email: 'mcskmcs06@gmail.com', // Opcional: capturar do usuário se necessário
             first_name: pedidoInfo.clienteNome.split(' ')[0],
             last_name: pedidoInfo.clienteNome.split(' ').slice(1).join(' ') || 'Cliente',
             identification: {
                 type: 'CPF',
-                number: '00000000000' // CPF genérico para teste, o MP exige um CPF válido em produção
+                number: '9775147204' // CPF genérico para teste, o MP exige um CPF válido em produção
             },
             address: {
-                zip_code: '00000000',
+                zip_code: '68920000',
                 street_name: pedidoInfo.endereco,
                 street_number: pedidoInfo.numeroEndereco,
                 neighborhood: pedidoInfo.bairro,

@@ -66,47 +66,60 @@
 
             <div class="grid lg:grid-cols-12 gap-10">
                 <div class="lg:col-span-4">
-                    <div class="bg-white rounded-[2.5rem] p-8 card-shadow sticky top-32">
-                        <h2 class="text-xl font-black mb-8 flex items-center gap-2">
-                            <i class="fa-solid fa-circle-plus text-orange-500"></i> Novo Produto
-                        </h2>
-                        <form id="product-form" class="space-y-4">
-                            <input type="text" id="name" placeholder="Nome do Produto" required class="w-full p-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none font-bold">
-                            
-                            <div class="grid grid-cols-2 gap-3">
-                                <input type="number" id="price" step="0.01" placeholder="R$ 0,00" required class="w-full p-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-500 font-bold">
-                                <select id="category" class="w-full p-4 bg-slate-50 border-none rounded-2xl font-bold uppercase text-[10px]">
-                                <option value="iphone">iPhone</option>
-                                <option value="samsung">Samsung</option>
-                                <option value="xiaomi">Xiaomi</option>
-                                <option value="motorola">Motorola</option>
-                                <option value="realme">Realme</option>
-                                <option value="tablet">Tablet</option>
-                                <option value="som">Som/Caixas</option>
-                                <option value="games">Games</option>
-                                <option value="academia">Academia</option>
-                                <option value="perfumes">Perfumes</option>
-                                <option value="tvbox">TV & Box</option>
-                                <option value="eletrodomesticos">Eletrodomésticos</option>
-                                <option value="acessorios">Acessórios</option>
-                                </select>
+                    <div class="space-y-6">
+                        <!-- GERENCIAR CATEGORIAS -->
+                        <div class="bg-white rounded-[2.5rem] p-8 card-shadow">
+                            <h2 class="text-xl font-black mb-6 flex items-center gap-2">
+                                <i class="fa-solid fa-tag text-orange-500"></i> Categorias
+                            </h2>
+                            <div class="flex gap-2 mb-4">
+                                <input type="text" id="new-category" placeholder="Nova categoria..." class="flex-1 p-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none font-bold text-sm">
+                                <button type="button" onclick="addCategory()" class="px-6 py-4 bg-orange-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-orange-700 transition-all shadow-lg shadow-orange-100">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
                             </div>
-                            
-                            <textarea id="description" placeholder="Descrição curta..." class="w-full p-4 bg-slate-50 border-none rounded-2xl h-24 outline-none focus:ring-2 focus:ring-orange-500"></textarea>
-                            
-                            <div class="relative">
-                                <label class="w-full p-8 border-2 border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center cursor-pointer hover:border-orange-500 transition-all bg-slate-50/50">
-                                    <i class="fa-solid fa-images text-3xl text-slate-300 mb-2"></i>
-                                    <span id="file-label" class="text-[10px] font-black text-slate-400 uppercase">Subir até 4 Fotos</span>
-                                    <input type="file" id="photos" class="hidden" accept="image/*" multiple>
-                                </label>
-                                <div id="previa-fotos" class="flex flex-wrap gap-2 mt-3"></div>
-                            </div>
+                            <div id="categories-list" class="flex flex-wrap gap-2 max-h-40 overflow-y-auto"></div>
+                        </div>
 
-                            <button type="submit" id="btn-save" class="w-full py-5 bg-orange-600 text-white rounded-[1.5rem] font-black uppercase tracking-widest shadow-xl shadow-orange-100 hover:bg-slate-900 transition-all">
-                                Publicar Agora
-                            </button>
-                        </form>
+                        <!-- NOVO PRODUTO -->
+                        <div class="bg-white rounded-[2.5rem] p-8 card-shadow sticky top-32">
+                            <h2 class="text-xl font-black mb-8 flex items-center gap-2">
+                                <i class="fa-solid fa-circle-plus text-orange-500"></i> Novo Produto
+                            </h2>
+                            <form id="product-form" class="space-y-4">
+                                <input type="text" id="name" placeholder="Nome do Produto" required class="w-full p-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none font-bold">
+                                
+                                <div class="grid grid-cols-2 gap-3">
+                                    <input type="number" id="price" step="0.01" placeholder="R$ 0,00" required class="w-full p-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-500 font-bold">
+                                    <select id="category" class="w-full p-4 bg-slate-50 border-none rounded-2xl font-bold uppercase text-[10px]">
+                                    </select>
+                                </div>
+                                
+                                <textarea id="description" placeholder="Descrição curta..." class="w-full p-4 bg-slate-50 border-none rounded-2xl h-24 outline-none focus:ring-2 focus:ring-orange-500"></textarea>
+                                
+                                <div class="relative">
+                                    <label class="w-full p-8 border-2 border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center cursor-pointer hover:border-orange-500 transition-all bg-slate-50/50">
+                                        <i class="fa-solid fa-images text-3xl text-slate-300 mb-2"></i>
+                                        <span id="file-label" class="text-[10px] font-black text-slate-400 uppercase">Subir até 4 Fotos</span>
+                                        <input type="file" id="photos" class="hidden" accept="image/*" multiple>
+                                    </label>
+                                    <div id="previa-fotos" class="flex flex-wrap gap-2 mt-3"></div>
+                                </div>
+
+                                <div class="flex gap-2">
+                                    <input type="text" id="image-url" placeholder="Ou URL da imagem..." class="flex-1 p-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none font-bold text-sm">
+                                    <button type="button" onclick="addImageFromUrl()" class="px-6 py-4 bg-orange-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-orange-700 transition-all shadow-lg shadow-orange-100">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+
+                                <div id="previa-urls" class="flex flex-wrap gap-2"></div>
+
+                                <button type="submit" id="btn-save" class="w-full py-5 bg-orange-600 text-white rounded-[1.5rem] font-black uppercase tracking-widest shadow-xl shadow-orange-100 hover:bg-slate-900 transition-all">
+                                    Publicar Agora
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
@@ -148,16 +161,87 @@
 
         const photosInput = document.getElementById('photos');
         const previaContainer = document.getElementById('previa-fotos');
+        const previaUrlsContainer = document.getElementById('previa-urls');
+        let urlImages = [];
+        let categories = [];
+
+        // CATEGORIAS PADRÃO
+        const defaultCategories = ['iPhone', 'Samsung', 'Xiaomi', 'Motorola', 'Realme', 'Tablet', 'Som/Caixas', 'Games', 'Academia', 'Perfumes', 'TV & Box', 'Eletrodomésticos', 'Acessórios'];
 
         // LOGIN
         function checkLogin() {
             if(document.getElementById('admin-password').value === MASTER_PASS) {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('admin-content').classList.remove('hidden-admin');
+                loadCategories();
                 fetchProducts();
             } else { alert("Senha Incorreta!"); }
         }
         function logout() { location.reload(); }
+
+        // CARREGAR CATEGORIAS DO LOCALSTORAGE
+        function loadCategories() {
+            const saved = localStorage.getItem('jardson-categories');
+            categories = saved ? JSON.parse(saved) : [...defaultCategories];
+            updateCategorySelect();
+            updateCategoriesList();
+        }
+
+        // SALVAR CATEGORIAS NO LOCALSTORAGE
+        function saveCategories() {
+            localStorage.setItem('jardson-categories', JSON.stringify(categories));
+        }
+
+        // ADICIONAR NOVA CATEGORIA
+        function addCategory() {
+            const input = document.getElementById('new-category');
+            const newCat = input.value.trim();
+
+            if(!newCat) {
+                alert("Digite o nome da categoria");
+                return;
+            }
+
+            if(categories.some(c => c.toLowerCase() === newCat.toLowerCase())) {
+                alert("Esta categoria já existe");
+                return;
+            }
+
+            categories.push(newCat);
+            saveCategories();
+            updateCategorySelect();
+            updateCategoriesList();
+            input.value = "";
+        }
+
+        // REMOVER CATEGORIA
+        function removeCategory(index) {
+            if(confirm("Deseja remover esta categoria?")) {
+                categories.splice(index, 1);
+                saveCategories();
+                updateCategorySelect();
+                updateCategoriesList();
+            }
+        }
+
+        // ATUALIZAR SELECT DE CATEGORIAS
+        function updateCategorySelect() {
+            const select = document.getElementById('category');
+            select.innerHTML = categories.map(cat => `<option value="${cat.toLowerCase()}">${cat}</option>`).join('');
+        }
+
+        // ATUALIZAR LISTA DE CATEGORIAS EXIBIDA
+        function updateCategoriesList() {
+            const list = document.getElementById('categories-list');
+            list.innerHTML = categories.map((cat, index) => `
+                <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-xl group">
+                    <span class="text-xs font-bold text-slate-700">${cat}</span>
+                    <button type="button" onclick="removeCategory(${index})" class="text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-all text-xs">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
 
         // PRÉ-VISUALIZAÇÃO DE FOTOS
         photosInput.onchange = function() {
@@ -176,6 +260,44 @@
             });
         };
 
+        // ADICIONAR IMAGEM POR URL
+        function addImageFromUrl() {
+            const urlInput = document.getElementById('image-url');
+            const url = urlInput.value.trim();
+            
+            if(!url) {
+                alert("Por favor, digite uma URL válida");
+                return;
+            }
+
+            if(urlImages.length >= 4) {
+                alert("Máximo de 4 imagens atingido");
+                return;
+            }
+
+            urlImages.push(url);
+            urlInput.value = "";
+            updateUrlPreview();
+        }
+
+        // ATUALIZAR PREVIEW DE URLs
+        function updateUrlPreview() {
+            previaUrlsContainer.innerHTML = urlImages.map((url, index) => `
+                <div class="relative group">
+                    <img src="${url}" alt="Preview" class="w-14 h-14 object-cover rounded-xl border-2 border-white shadow-sm" onerror="this.src='https://via.placeholder.com/56?text=Erro'">
+                    <button type="button" onclick="removeUrlImage(${index})" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold opacity-0 group-hover:opacity-100 transition-all">
+                        ×
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // REMOVER IMAGEM POR URL
+        function removeUrlImage(index) {
+            urlImages.splice(index, 1);
+            updateUrlPreview();
+        }
+
         // CARREGAR E ATUALIZAR STATS
         async function fetchProducts() {
             const list = document.getElementById('product-list');
@@ -193,7 +315,7 @@
                 <tr class="hover:bg-slate-50/50 transition-all group">
                     <td class="px-8 py-5">
                         <div class="flex items-center gap-4">
-                            <img src="${p.images[0]}" class="w-14 h-14 object-cover rounded-2xl shadow-sm bg-slate-100">
+                            <img src="${p.images && p.images[0] ? p.images[0] : 'https://via.placeholder.com/400'}" alt="${p.name}" class="w-12 h-12 rounded-xl object-cover">
                             <div>
                                 <p class="font-bold text-slate-800 leading-none mb-1 text-sm">${p.name}</p>
                                 <span class="text-[9px] font-black text-slate-400 uppercase bg-slate-100 px-2 py-0.5 rounded">${p.category}</span>
@@ -231,7 +353,8 @@
             btn.disabled = true;
 
             try {
-                let imageUrls = [];
+                let imageUrls = [...urlImages];
+                
                 if(files.length > 0) {
                     for (const file of files) {
                         const fileName = `${Date.now()}_${file.name}`;
@@ -239,7 +362,11 @@
                         const { data: pub } = _supabase.storage.from('fotos-produtos').getPublicUrl(fileName);
                         imageUrls.push(pub.publicUrl);
                     }
-                } else { imageUrls = ['https://via.placeholder.com/400']; }
+                }
+                
+                if(imageUrls.length === 0) {
+                    imageUrls = ['https://via.placeholder.com/400'];
+                }
 
                 await _supabase.from('produtos').insert([{
                     name: document.getElementById('name').value,
@@ -252,6 +379,8 @@
                 
                 document.getElementById('product-form').reset();
                 previaContainer.innerHTML = "";
+                urlImages = [];
+                previaUrlsContainer.innerHTML = "";
                 fetchProducts();
                 alert("✅ Produto publicado com sucesso!");
             } catch (err) { alert("❌ Erro no sistema"); }
@@ -288,4 +417,3 @@
     </script>
 </body>
 </html>
-

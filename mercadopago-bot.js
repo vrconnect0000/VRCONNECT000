@@ -20,7 +20,7 @@ async function gerarPixMercadoPago(pedidoInfo) {
             last_name: pedidoInfo.clienteNome.split(' ').slice(1).join(' ') || 'Cliente',
             identification: {
                 type: 'CPF',
-                number: '9775147204' // CPF genérico para teste, o MP exige um CPF válido em produção
+                number: '897.751.472-04' // CPF genérico para teste, o MP exige um CPF válido em produção
             },
             address: {
                 zip_code: '68920000',

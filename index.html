@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Jardson Imports | Catálogo Completo</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
@@ -51,24 +51,14 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8f9fa; color:
     </button>
 </header>
 
-<div class="flex overflow-x-auto gap-2 max-w-5xl mx-auto pb-4 category-scroll px-4 mt-4 no-scrollbar">
+<div class="flex overflow-x-auto gap-2 max-w-5xl mx-auto pb-4 category-scroll px-4 mt-4 no-scrollbar" id="category-list">
     <span onclick="filterCategory('all', this)" class="category-pill active">Todos</span>
-    <span onclick="filterCategory('iphone', this)" class="category-pill">iPhone</span>
-    <span onclick="filterCategory('samsung', this)" class="category-pill">Samsung</span>
-    <span onclick="filterCategory('xiaomi', this)" class="category-pill">Xiaomi</span>
-    <span onclick="filterCategory('realme', this)" class="category-pill">Realme</span>
-    <span onclick="filterCategory('tablet', this)" class="category-pill">Tablet</span>
-    <span onclick="filterCategory('som', this)" class="category-pill">Som</span>
-    <span onclick="filterCategory('motorola', this)" class="category-pill">Motorola</span>
-    <span onclick="filterCategory('tvbox', this)" class="category-pill">TV & Box</span>
-    <span onclick="filterCategory('games', this)" class="category-pill">Games</span>
-    <span onclick="filterCategory('perfumes', this)" class="category-pill">Perfumes</span>
-    <span onclick="filterCategory('academia', this)" class="category-pill">Academia</span>
-    <span onclick="filterCategory('eletrodomesticos', this)" class="category-pill">Eletrodomesticos</span>
-    <span onclick="filterCategory('acessorios', this)" class="category-pill">Acessorios</span>
+    <!-- Categorias serão carregadas aqui -->
 </div>
 
-<main class="p-4 grid grid-cols-2 md:grid-cols-4 gap-3 max-w-5xl mx-auto" id="vitrine"></main>
+<main class="p-4 grid grid-cols-2 md:grid-cols-4 gap-3 max-w-5xl mx-auto" id="vitrine">
+    <!-- Produtos serão carregados aqui -->
+</main>
 
 <div id="product-modal" class="side-modal flex flex-col">
     <div class="p-6 border-b flex justify-between items-center bg-white sticky top-0 z-10">
@@ -142,7 +132,6 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8f9fa; color:
     </div>
   </div>
 </div>
-</div>
 
 <div id="cart-modal" class="side-modal flex flex-col">
     <div class="p-6 border-b flex justify-between items-center bg-white">
@@ -155,27 +144,9 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8f9fa; color:
         <div class="flex justify-between mb-4 font-black text-xl text-[#ee4d2d]">
             <span>Total:</span><span id="total-val">R$ 0,00</span>
         </div>
-        <button onclick="showPix()" class="w-full py-4 bg-green-500 text-white rounded-2xl font-bold flex items-center justify-center gap-2">
-            <i class="fa-solid fa-qrcode text-xl"></i> FINALIZAR COMPRA
+        <button onclick="finalizarPedido()" class="w-full py-4 bg-green-500 text-white rounded-2xl font-bold flex items-center justify-center gap-2">
+            <i class="fa-brands fa-whatsapp text-xl"></i> PROSSEGUIR PAGAMENTO
         </button>
-    </div>
-</div>
-
-<div id="payment-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[300] hidden flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-md rounded-[32px] p-6 text-center">
-        <h2 class="text-2xl font-black mb-2 tracking-tight text-gray-800">Pagamento Pix</h2>
-        <div id="pay-total" class="bg-orange-50 px-6 py-2 rounded-full mb-6 text-orange-700 font-black text-xl inline-block">R$ 0,00</div>
-        <div class="mb-6">
-            <img id="pix-qrcode" src="https://generator.qrcodefacil.com/qrcodes/static-b54623411b67d6be80f620580542b5a1.svg" class="mx-auto w-48 border-2 border-gray-100 p-2 rounded-3xl">
-        </div>
-        <div class="mb-6">
-            <div class="flex gap-2">
-                <input type="text" id="pix-code" readonly value="00020126500014BR.GOV.BCB.PIX0128jardsonimportsrico@gmail.com5204000053039865802BR5925JARDSON DOS SANTOS PEREIR6009SAO PAULO62140510sTh0SROYwZ6304DF37" class="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-xs font-mono text-gray-500 w-full overflow-hidden whitespace-nowrap outline-none">
-                <button onclick="copyPixCode()" class="bg-gray-800 text-white px-4 rounded-xl"><i class="fa-solid fa-copy"></i></button>
-            </div>
-        </div>
-        <button onclick="sendOrderToWhatsApp()" class="w-full bg-[#25D366] text-white py-4 rounded-2xl font-black flex items-center justify-center gap-3">ENVIAR COMPROVANTE</button>
-        <button onclick="closePayment()" class="mt-4 text-gray-400 font-bold text-xs uppercase">FECHAR</button>
     </div>
 </div>
 
@@ -200,16 +171,22 @@ const whatsappLoja = "5596991189596";
 
 // BUSCAR PRODUTOS DO BANCO
 async function fetchProducts() {
-    const { data, error } = await _supabase.from('produtos').select('*');
+    const { data, error } = await _supabase.from('produtos').select('*').order('created_at', { ascending: false });
     if (error) { console.error('Erro:', error); return; }
     products = data;
+    renderCategories();
     renderProducts();
 }
 
-function copyPixCode() {
-    const pixInput = document.getElementById("pix-code");
-    navigator.clipboard.writeText(pixInput.value);
-    alert("Código Copiado!");
+function renderCategories() {
+    const categoryList = document.getElementById('category-list');
+    const uniqueCategories = [...new Set(products.map(p => p.category))];
+    categoryList.innerHTML = `<span onclick="filterCategory('all', this)" class="category-pill active">Todos</span>`;
+    uniqueCategories.forEach(cat => {
+        if(cat) {
+            categoryList.innerHTML += `<span onclick="filterCategory('${cat.toLowerCase()}', this)" class="category-pill">${cat.charAt(0).toUpperCase() + cat.slice(1)}</span>`;
+        }
+    });
 }
 
 function showToast() {
@@ -221,16 +198,21 @@ function showToast() {
 function renderProducts(cat = 'all') {
     const vitrine = document.getElementById('vitrine');
     vitrine.innerHTML = '';
-    const filtered = cat === 'all' ? products : products.filter(p => p.category === cat);
+    const filtered = cat === 'all' ? products : products.filter(p => p.category.toLowerCase() === cat.toLowerCase());
+    if(filtered.length === 0) {
+        vitrine.innerHTML = '<div class="col-span-full py-20 text-center text-gray-400 font-bold">Nenhum produto encontrado nesta categoria.</div>';
+        return;
+    }
     filtered.forEach(p => {
+        const img = (p.images && p.images[0]) ? p.images[0] : 'https://via.placeholder.com/400';
         vitrine.innerHTML += `
             <div class="product-card p-3 shadow-sm" onclick="openProductDetail(${p.id})">
                 ${p.promo ? '<div class="discount-tag">PROMO</div>' : ''}
                 <div class="h-32 flex items-center justify-center mb-2">
-                    <img src="${p.images[0]}" class="max-h-full object-contain">
+                    <img src="${img}" class="max-h-full object-contain">
                 </div>
                 <h3 class="text-[11px] font-bold line-clamp-2 h-8 mb-1 uppercase tracking-tighter">${p.name}</h3>
-                <p class="text-[#ee4d2d] font-black mt-auto">R$ ${p.price.toLocaleString('pt-br')}</p>
+                <p class="text-[#ee4d2d] font-black mt-auto">R$ ${p.price.toLocaleString('pt-br', {minimumFractionDigits: 2})}</p>
             </div>
         `;
     });
@@ -239,24 +221,24 @@ function renderProducts(cat = 'all') {
 function openProductDetail(id) {
     const p = products.find(i => i.id == id);
     const content = document.getElementById('product-detail-content');
-    const thumbs = p.images.length > 1 ? `
+    const images = p.images && p.images.length > 0 ? p.images : ['https://via.placeholder.com/400'];
+    const thumbs = images.length > 1 ? `
         <div class="flex gap-2 px-6 py-2 overflow-x-auto no-scrollbar">
-            ${p.images.map((img, idx) => `
+            ${images.map((img, idx) => `
                 <img src="${img}" class="thumb-img ${idx === 0 ? 'active' : ''}" onclick="updateMainImg(this, '${img}')">
             `).join('')}
         </div>
     ` : '';
-
     content.innerHTML = `
         <div class="bg-gray-50 flex items-center justify-center p-8 h-80">
-            <img id="main-img" src="${p.images[0]}" class="max-h-full object-contain">
+            <img id="main-img" src="${images[0]}" class="max-h-full object-contain">
         </div>
         ${thumbs}
         <div class="p-6">
             <h2 class="text-xl font-extrabold mb-1 tracking-tight text-gray-800 uppercase">${p.name}</h2>
-            <p class="text-2xl font-black text-[#ee4d2d] mb-4">R$ ${p.price.toLocaleString('pt-br')}</p>
+            <p class="text-2xl font-black text-[#ee4d2d] mb-4">R$ ${p.price.toLocaleString('pt-br', {minimumFractionDigits: 2})}</p>
             <div class="bg-gray-50 border border-gray-100 p-4 rounded-2xl text-[13px] text-gray-500 mb-8 leading-relaxed">
-                ${p.description}
+                ${p.description || 'Sem descrição disponível.'}
             </div>
            <div class="flex gap-3">
                 <button onclick="askDoubt('${p.name}')" class="flex-none w-14 h-14 rounded-2xl overflow-hidden flex items-center justify-center active:scale-90 transition-all">
@@ -301,73 +283,59 @@ function updateCartUI() {
     let total = 0;
     cart.forEach((item, index) => {
         total += item.price;
+        const img = (item.images && item.images[0]) ? item.images[0] : 'https://via.placeholder.com/400';
         list.innerHTML += `
             <div class="flex items-center gap-4 mb-4 bg-gray-50 p-3 rounded-xl">
-                <img src="${item.images[0]}" class="w-12 h-12 object-contain">
+                <img src="${img}" class="w-12 h-12 object-contain">
                 <div class="flex-1">
                     <h4 class="text-xs font-bold uppercase">${item.name}</h4>
-                    <p class="text-[#ee4d2d] font-bold">R$ ${item.price.toLocaleString('pt-br')}</p>
+                    <p class="text-[#ee4d2d] font-bold">R$ ${item.price.toLocaleString('pt-br', {minimumFractionDigits: 2})}</p>
                 </div>
                 <button onclick="removeFromCart(${index})" class="text-red-500"><i class="fa-solid fa-trash"></i></button>
             </div>
         `;
     });
     document.getElementById('total-val').innerText = `R$ ${total.toLocaleString('pt-br', {minimumFractionDigits: 2})}`;
-    document.getElementById('pay-total').innerText = `R$ ${total.toLocaleString('pt-br', {minimumFractionDigits: 2})}`;
 }
 
 function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); }
 function clearCart() { cart = []; updateCartUI(); }
-function showPix() { if(!user) { openModal('profile-modal'); return; } if(cart.length === 0) return; document.getElementById('payment-overlay').classList.remove('hidden'); }
-function closePayment() { document.getElementById('payment-overlay').classList.add('hidden'); }
+
+function finalizarPedido() {
+    if(!user) { openModal('profile-modal'); return; }
+    if(cart.length === 0) { alert("Sua sacola está vazia!"); return; }
+    sendOrderToWhatsApp();
+}
 
 function sendOrderToWhatsApp(){
-    if(!user) return;
-
     const today = new Date();
     const dataPedido = today.toLocaleDateString('pt-BR');
     const horaPedido = today.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
     const numeroPedido = Math.floor(Math.random()*9000+1000);
-
     let msg = `🚀 *NOVO PEDIDO - JARDSON IMPORTS*\n\n`;
     msg += `📅 *DATA DO PEDIDO:* ${dataPedido}\n`;
     msg += `⏰ *HORÁRIO:* ${horaPedido}\n`;
     msg += `🆔 *Nº DO PEDIDO:* #${numeroPedido}\n\n`;
     msg += `📦 *ITENS DO PEDIDO:*\n`;
-
     cart.forEach(p => {
         msg += `• Produto: ${p.name}\n`;
         msg += `  └ Quantidade: 1\n`;
-        msg += `  └ Valor Unitário: R$ ${p.price.toLocaleString('pt-BR')}\n\n`;
+        msg += `  └ Valor Unitário: R$ ${p.price.toLocaleString('pt-BR', {minimumFractionDigits: 2})}\n\n`;
     });
-
     const total = cart.reduce((a,b)=>a+b.price,0);
-
-    msg += `💳 *FORMA DE PAGAMENTO:* PIX\n`;
-    msg += `🎟️ *CUPOM APLICADO:*\n`;
-    msg += `💸 *DESCONTO:*\n\n`;
-
+    msg += `💳 *FORMA DE PAGAMENTO:* A COMBINAR\n\n`;
     msg += `🚚 *ENTREGA*\n`;
     msg += `📍 Endereço: ${user.rua}, ${user.num}\n`;
     msg += `🏘️ Bairro: ${user.bairro}\n`;
     msg += `🏙️ Cidade/UF: Laranjal do Jari / AP\n`;
-    msg += `📮 CEP: 68920-000\n`;
-    msg += `🔍 Referência:\n`;
     msg += `📦 Tipo de Entrega: Motoboy (Grátis)\n\n`;
-
     msg += `💰 *RESUMO FINANCEIRO*\n`;
-    msg += `🛒 Subtotal: R$ ${total.toLocaleString('pt-BR')}\n`;
-    msg += `🚚 Frete: R$ 0\n`;
-    msg += `💸 Desconto:\n`;
-    msg += `💰 *TOTAL A PAGAR:* R$ ${total.toLocaleString('pt-BR')}\n\n`;
-
+    msg += `🛒 Subtotal: R$ ${total.toLocaleString('pt-BR', {minimumFractionDigits: 2})}\n`;
+    msg += `💰 *TOTAL A PAGAR:* R$ ${total.toLocaleString('pt-BR', {minimumFractionDigits: 2})}\n\n`;
     msg += `👤 *DADOS DO CLIENTE*\n`;
     msg += `Nome: ${user.nome}\n\n`;
-    msg += `📸 *STATUS DO PAGAMENTO:*\n`;
-    msg += `📝 Enviei o comprovante, aguardando confirmação.\n\n`;
     msg += `🙏 *OBRIGADO PELA PREFERÊNCIA!*\n`;
     msg += `*JARDSON IMPORTS – QUALIDADE E CONFIANÇA*`;
-
     const waLink = `https://wa.me/${whatsappLoja}?text=${encodeURIComponent(msg)}`;
     window.open(waLink, "_blank");
 }
@@ -405,10 +373,9 @@ function filterCategory(cat, el) {
     renderProducts(cat);
 }
 
-// INICIAR
-fetchProducts();
-updateUserUI();
-</script>
-
+	fetchProducts();
+	updateUserUI();
+	</script>
+	<script src="mercadopago-bot.js"></script>
 </body>
 </html>

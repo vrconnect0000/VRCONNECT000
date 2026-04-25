@@ -85,7 +85,7 @@
                             
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <input type="number" id="price" step="0.01" placeholder="R$ 0,00" required class="w-full p-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-500 font-bold text-sm">
-                                <select id="category" class="w-full p-4 bg-slate-50 border-none rounded-2xl font-bold uppercase text-[10px]">
+                                <select id="category" class="w-full p-4 bg-slate-50 border-none rounded-2xl font-bold uppercase text-[10px]" onchange="updateCategoryOptions()">
                                     <option value="iphone">iPhone</option>
                                     <option value="samsung">Samsung</option>
                                     <option value="xiaomi">Xiaomi</option>
@@ -102,12 +102,15 @@
                                 </select>
                             </div>
                             
-                            <textarea id="description" placeholder="Descrição curta..." class="w-full p-4 bg-slate-50 border-none rounded-2xl h-24 outline-none focus:ring-2 focus:ring-orange-500 text-sm"></textarea>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-slate-400 uppercase ml-2">Descrição do Produto</label>
+                                <textarea id="description" placeholder="Digite as especificações do produto aqui..." class="w-full p-4 bg-slate-50 border-none rounded-2xl h-32 outline-none focus:ring-2 focus:ring-orange-500 text-sm font-medium"></textarea>
+                            </div>
                             
-                            <!-- Campo de URL de Imagem (Restaurado conforme original) -->
+                            <!-- Campo de URL de Imagem (Opção de Adicionar Link) -->
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black text-slate-400 uppercase ml-2">URLs das Imagens (Uma por linha)</label>
-                                <textarea id="image-urls" placeholder="https://exemplo.com/foto1.jpg&#10;https://exemplo.com/foto2.jpg" class="w-full p-4 bg-slate-50 border-none rounded-2xl h-24 outline-none focus:ring-2 focus:ring-orange-500 text-sm"></textarea>
+                                <textarea id="image-urls" placeholder="Cole os links das fotos aqui..." class="w-full p-4 bg-slate-50 border-none rounded-2xl h-24 outline-none focus:ring-2 focus:ring-orange-500 text-sm"></textarea>
                             </div>
 
                             <div class="relative">
@@ -123,6 +126,21 @@
                                 Publicar Agora
                             </button>
                         </form>
+
+                        <!-- Gerenciamento de Categorias -->
+                        <hr class="my-8 border-slate-200">
+                        <h2 class="text-lg md:text-xl font-black mb-6 md:mb-8 flex items-center gap-2">
+                            <i class="fa-solid fa-tags text-orange-500"></i> Gerenciar Categorias
+                        </h2>
+                        <form id="category-form" class="space-y-4">
+                            <input type="text" id="new-category" placeholder="Nome da nova categoria" class="w-full p-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none font-bold text-sm">
+                            <button type="submit" class="w-full py-4 md:py-5 bg-green-600 text-white rounded-[1.5rem] font-black uppercase tracking-widest shadow-xl shadow-green-100 hover:bg-green-700 transition-all text-sm">
+                                Adicionar Categoria
+                            </button>
+                        </form>
+                        <div id="categories-list" class="mt-6 space-y-2">
+                            <!-- Categorias serão carregadas aqui -->
+                        </div>
                     </div>
                 </div>
 
@@ -207,8 +225,8 @@
 
             // Stats
             document.getElementById('stat-total').innerText = data.length;
-            const total = data.reduce((acc, p) => acc + p.price, 0);
-            document.getElementById('stat-value').innerText = `R$ ${total.toLocaleString('pt-br', {minimumFractionDigits: 2})}`;
+            const totalValue = data.reduce((acc, p) => acc + p.price, 0);
+            document.getElementById('stat-value').innerText = `R$ ${totalValue.toLocaleString('pt-br', {minimumFractionDigits: 2})}`;
 
             list.innerHTML = data.map(p => `
                 <tr class="hover:bg-slate-50/50 transition-all group">
@@ -319,6 +337,77 @@
                 row.style.display = text.includes(query) ? '' : 'none';
             });
         }
+
+        // GERENCIAMENTO DE CATEGORIAS
+        let customCategories = JSON.parse(localStorage.getItem('custom_categories')) || [];
+
+        function updateCategoryOptions() {
+            const categorySelect = document.getElementById('category');
+            const currentValue = categorySelect.value;
+            
+            const options = Array.from(categorySelect.options);
+            options.forEach(opt => {
+                if(opt.dataset.custom === 'true') {
+                    opt.remove();
+                }
+            });
+            
+            customCategories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.toLowerCase();
+                option.textContent = cat;
+                option.dataset.custom = 'true';
+                categorySelect.appendChild(option);
+            });
+            
+            categorySelect.value = currentValue;
+            renderCategories();
+        }
+
+        function renderCategories() {
+            const list = document.getElementById('categories-list');
+            list.innerHTML = customCategories.map(cat => `
+                <div class="flex items-center justify-between bg-slate-50 p-3 md:p-4 rounded-2xl border border-slate-100">
+                    <span class="font-bold text-slate-700 text-sm md:text-base">${cat}</span>
+                    <button onclick="deleteCategory('${cat}')" class="p-2 text-slate-300 hover:text-red-500 transition-all">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('category-form').onsubmit = function(e) {
+            e.preventDefault();
+            const input = document.getElementById('new-category');
+            const newCategory = input.value.trim();
+            
+            if(newCategory === '') {
+                alert('Digite o nome da categoria');
+                return;
+            }
+            
+            if(customCategories.includes(newCategory)) {
+                alert('Esta categoria já existe');
+                return;
+            }
+            
+            customCategories.push(newCategory);
+            localStorage.setItem('custom_categories', JSON.stringify(customCategories));
+            input.value = '';
+            updateCategoryOptions();
+        };
+
+        function deleteCategory(cat) {
+            if(confirm(`Deseja excluir a categoria "${cat}"?`)) {
+                customCategories = customCategories.filter(c => c !== cat);
+                localStorage.setItem('custom_categories', JSON.stringify(customCategories));
+                updateCategoryOptions();
+            }
+        }
+
+        window.addEventListener('load', () => {
+            updateCategoryOptions();
+        });
     </script>
 </body>
 </html>

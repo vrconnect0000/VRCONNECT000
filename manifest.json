@@ -1,0 +1,23 @@
+{
+  "name": "Jardson Imports",
+  "short_name": "Jardson",
+  "description": "Catálogo Completo Jardson Imports",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#f8f9fa",
+  "theme_color": "#ee6407",
+  "icons": [
+    {
+      "src": "https://files.catbox.moe/hieucw.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://files.catbox.moe/hieucw.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

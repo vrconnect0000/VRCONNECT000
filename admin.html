@@ -104,10 +104,16 @@
                             
                             <textarea id="description" placeholder="Descrição curta..." class="w-full p-4 bg-slate-50 border-none rounded-2xl h-24 outline-none focus:ring-2 focus:ring-orange-500 text-sm"></textarea>
                             
+                            <!-- Campo de URL de Imagem (Restaurado conforme original) -->
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-slate-400 uppercase ml-2">URLs das Imagens (Uma por linha)</label>
+                                <textarea id="image-urls" placeholder="https://exemplo.com/foto1.jpg&#10;https://exemplo.com/foto2.jpg" class="w-full p-4 bg-slate-50 border-none rounded-2xl h-24 outline-none focus:ring-2 focus:ring-orange-500 text-sm"></textarea>
+                            </div>
+
                             <div class="relative">
                                 <label class="w-full p-6 md:p-8 border-2 border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center cursor-pointer hover:border-orange-500 transition-all bg-slate-50/50">
                                     <i class="fa-solid fa-images text-2xl md:text-3xl text-slate-300 mb-2"></i>
-                                    <span id="file-label" class="text-[10px] font-black text-slate-400 uppercase text-center">Subir até 4 Fotos</span>
+                                    <span id="file-label" class="text-[10px] font-black text-slate-400 uppercase text-center">Ou suba até 4 Fotos</span>
                                     <input type="file" id="photos" class="hidden" accept="image/*" multiple>
                                 </label>
                                 <div id="previa-fotos" class="flex flex-wrap gap-2 mt-3"></div>
@@ -156,7 +162,7 @@
 
     <script>
         // --- CONFIGURAÇÃO ---
-        const MASTER_PASS = "Jardson"; // ALTERE SUA SENHA AQUI
+        const MASTER_PASS = "Jardson"; 
         const SUPABASE_URL = 'https://qqspmuaukoaetilbaflv.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_DN831m2SDg4cVvfn8Vc0pA_VZGfs_9u';
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -266,9 +272,17 @@
             const price = parseFloat(document.getElementById('price').value);
             const category = document.getElementById('category').value;
             const description = document.getElementById('description').value;
+            const urlText = document.getElementById('image-urls').value;
             const files = Array.from(photosInput.files).slice(0, 4);
 
             let images = [];
+            
+            // 1. Processar URLs de imagens (Uma por linha)
+            if(urlText.trim() !== "") {
+                images = urlText.split('\n').map(u => u.trim()).filter(u => u !== "");
+            }
+
+            // 2. Processar arquivos locais (se houver)
             for(const file of files) {
                 const base64 = await toBase64(file);
                 images.push(base64);
@@ -282,7 +296,7 @@
             } else {
                 this.reset();
                 previaContainer.innerHTML = "";
-                document.getElementById('file-label').innerText = "Subir até 4 Fotos";
+                document.getElementById('file-label').innerText = "Ou suba até 4 Fotos";
                 fetchProducts();
             }
 

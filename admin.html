@@ -156,7 +156,7 @@
 
     <script>
         // --- CONFIGURAÇÃO ---
-        const MASTER_PASS = "Jardson"; 
+        const MASTER_PASS = "Jardson"; // ALTERE SUA SENHA AQUI
         const SUPABASE_URL = 'https://qqspmuaukoaetilbaflv.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_DN831m2SDg4cVvfn8Vc0pA_VZGfs_9u';
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -201,8 +201,8 @@
 
             // Stats
             document.getElementById('stat-total').innerText = data.length;
-            const totalValue = data.reduce((acc, p) => acc + p.price, 0);
-            document.getElementById('stat-value').innerText = `R$ ${totalValue.toLocaleString('pt-br', {minimumFractionDigits: 2})}`;
+            const total = data.reduce((acc, p) => acc + p.price, 0);
+            document.getElementById('stat-value').innerText = `R$ ${total.toLocaleString('pt-br', {minimumFractionDigits: 2})}`;
 
             list.innerHTML = data.map(p => `
                 <tr class="hover:bg-slate-50/50 transition-all group">
@@ -234,7 +234,7 @@
             `).join('');
         }
 
-        // CRUD ACTIONS (Simplificadas para o exemplo)
+        // CRUD ACTIONS
         async function editPrice(id, current) {
             const novo = prompt("Novo Preço:", current);
             if(novo && !isNaN(novo)) {
@@ -269,9 +269,6 @@
             const files = Array.from(photosInput.files).slice(0, 4);
 
             let images = [];
-            
-            // Simulação de upload (Em um caso real, você faria upload para o Supabase Storage ou S3)
-            // Aqui estamos convertendo para Base64 apenas para manter o funcionamento sem mudar a lógica de backend
             for(const file of files) {
                 const base64 = await toBase64(file);
                 images.push(base64);

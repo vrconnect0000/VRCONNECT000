@@ -1,0 +1,6 @@
+# Configurações sensíveis
+config.js
+
+# Outros arquivos desnecessários
+node_modules/
+.DS_Store

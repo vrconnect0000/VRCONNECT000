@@ -11,11 +11,11 @@
         
         const payload = {
             amount: Number(pedidoInfo.total),
-            payerName: pedidoInfo.clienteNome || 'Cliente Blue Shop',
+            payerName: pedidoInfo.clienteNome || 'Cliente JARDSON IMPORTS',
             payerDocument: '00000000000',
             payerEmail: pedidoInfo.clienteEmail || 'comprador@email.com',
             transactionId: `pedido_${pedidoInfo.numero}_${Date.now()}`,
-            description: `Pedido #${pedidoInfo.numero} - Blue Shop`
+            description: `Pedido #${pedidoInfo.numero} - JARDSON IMPORTS`
         };
 
         const response = await fetch(window.SUPABASE_PAYMENT_URL, {
@@ -102,7 +102,7 @@
                 <div style="flex:1;padding-right:10px;">
                     <p style="font-size:13px;font-weight:800;color:#000;margin:0;line-height:1.2;">${item.name}</p>
                 </div>
-                <p style="font-size:13px;font-weight:800;color:#0047FF;margin:0;white-space:nowrap;">R$ ${item.price.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+                <p style="font-size:13px;font-weight:800;color:#FF8C00;margin:0;white-space:nowrap;">R$ ${item.price.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
             </div>
         `).join('');
 
@@ -110,7 +110,7 @@
             <div style="width:100%;max-width:500px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background:#ffffff;">
                 <header style="padding:15px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:white;z-index:10;">
                     <button onclick="fecharPaginaPagamento(${scrollPos})" style="background:none;border:none;font-size:20px;color:#000;cursor:pointer;padding:5px;"><i class="fa-solid fa-arrow-left"></i></button>
-                    <div style="text-align:center;"><h1 style="font-size:18px;font-weight:900;color:#0047FF;margin:0;letter-spacing:-1px;">BLUE SHOP EXPRESS</h1></div>
+                    <div style="text-align:center;"><h1 style="font-size:18px;font-weight:900;color:#FF8C00;margin:0;letter-spacing:-1px;">JARDSON IMPORTS</h1></div>
                     <div style="width:30px;"></div>
                 </header>
 
@@ -121,7 +121,7 @@
                         <div onclick="processarPagamento('pix1')" style="padding:15px;border:1px solid #E2E8F0;border-radius:15px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;background:#FFF;transition:0.2s;">
                             <div style="display:flex;align-items:center;gap:12px;">
                                 <div style="width:24px;height:24px;border:2px solid #E2E8F0;border-radius:50%;"></div>
-                                <span style="font-size:14px;font-weight:800;color:#000;">Pix 1 — Blue Shop Express</span>
+                                <span style="font-size:14px;font-weight:800;color:#000;">Pix 1 — JARDSON IMPORTS</span>
                             </div>
                             <img src="https://logopng.com.br/logos/pix-106.png" style="height:18px;">
                         </div>
@@ -176,17 +176,17 @@
                 </div>
                 <h3 style="font-size:22px;font-weight:900;color:#000;margin-bottom:15px;letter-spacing:-0.5px;">LIMITE EXCEDIDO</h3>
                 <p style="font-size:15px;color:#64748b;font-weight:600;line-height:1.6;margin-bottom:25px;">
-                    O valor máximo para depósito no <span style="color:#0047FF;font-weight:800;">Pix 1</span> é <span style="color:#000;font-weight:800;">R$ 1.000,00</span>.<br><br>
-                    Para pagamentos acima deste valor, use a opção do <span style="color:#0047FF;font-weight:800;">Mercado Pago (Pix 2)</span>.
+                    O valor máximo para depósito no <span style="color:#FF8C00;font-weight:800;">Pix 1</span> é <span style="color:#000;font-weight:800;">R$ 1.000,00</span>.<br><br>
+                    Para pagamentos acima deste valor, use a opção do <span style="color:#FF8C00;font-weight:800;">Mercado Pago (Pix 2)</span>.
                 </p>
-                <div style="background:#F0F4FF;padding:12px;border-radius:15px;margin-bottom:25px;display:flex;align-items:center;justify-content:center;gap:10px;">
+                <div style="background:#FFF4E5;padding:12px;border-radius:15px;margin-bottom:25px;display:flex;align-items:center;justify-content:center;gap:10px;">
                     <div class="mini-loader"></div>
-                    <span style="font-size:13px;color:#0047FF;font-weight:800;">REDIRECIONANDO...</span>
+                    <span style="font-size:13px;color:#FF8C00;font-weight:800;">REDIRECIONANDO...</span>
                 </div>
             </div>
             <style>
                 @keyframes slideUp { from { opacity: 0; transform: translateY(40px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
-                .mini-loader { width: 16px; height: 16px; border: 3px solid #D0E0FF; border-top: 3px solid #0047FF; border-radius: 50%; animation: spin 0.8s linear infinite; }
+                .mini-loader { width: 16px; height: 16px; border: 3px solid #FFF4E5; border-top: 3px solid #FF8C00; border-radius: 50%; animation: spin 0.8s linear infinite; }
                 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
             </style>
         `;
@@ -214,10 +214,10 @@
         mainContent.innerHTML = `
             <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 0;">
                 <div class="shop-loader"></div>
-                <h2 style="color:#0047FF;font-weight:900;font-size:20px;margin-top:25px;letter-spacing:-0.5px;">PROCESSANDO...</h2>
+                <h2 style="color:#FF8C00;font-weight:900;font-size:20px;margin-top:25px;letter-spacing:-0.5px;">PROCESSANDO...</h2>
                 <p style="color:#64748b;font-size:14px;margin-top:8px;font-weight:600;">Gerando seu Pix com segurança</p>
                 <style>
-                    .shop-loader { width: 45px; height: 45px; border: 4px solid #f1f5f9; border-top: 4px solid #0047FF; border-radius: 50%; animation: spin 0.8s linear infinite; }
+                    .shop-loader { width: 45px; height: 45px; border: 4px solid #f1f5f9; border-top: 4px solid #FF8C00; border-radius: 50%; animation: spin 0.8s linear infinite; }
                     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
                 </style>
             </div>
@@ -235,17 +235,17 @@
 
     function renderizarAreaPix(pixData, pedidoInfo) {
         const mainContent = document.getElementById('checkout-main-content');
-        const label = pixData.gateway === 'mercadopago' ? 'Pix 2 — Mercado Pago' : 'Pix 1 — BlueShopExpress';
+        const label = pixData.gateway === 'mercadopago' ? 'Pix 2 — Mercado Pago' : 'Pix 1 — JARDSON IMPORTS';
 
         mainContent.innerHTML = `
             <div style="text-align:center;margin-bottom:25px;animation:fadeIn 0.4s ease-out;">
-                <div style="background:#F0F4FF;color:#0047FF;padding:8px 15px;border-radius:100px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:8px;border:1px solid #D0E0FF;">
+                <div style="background:#FFF4E5;color:#FF8C00;padding:8px 15px;border-radius:100px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:8px;border:1px solid #FFB020;">
                     <div class="dot-blink"></div> AGUARDANDO PAGAMENTO
                 </div>
             </div>
 
             <div style="background:#ffffff;border-radius:25px;padding:25px;margin-bottom:25px;border:1px solid #f1f5f9;box-shadow:0 10px 30px rgba(0,0,0,0.03);text-align:center;">
-                <p style="font-size:11px;font-weight:800;color:#0047FF;margin-bottom:12px;text-transform:uppercase;">${label}</p>
+                <p style="font-size:11px;font-weight:800;color:#FF8C00;margin-bottom:12px;text-transform:uppercase;">${label}</p>
                 <div style="background:#f8fafc;padding:15px;border-radius:20px;display:inline-block;margin-bottom:15px;border:1px solid #f1f5f9;">
                     <img src="data:image/png;base64,${pixData.qr_code_base64}" style="width:200px;height:200px;display:block;">
                 </div>
@@ -256,10 +256,10 @@
             </div>
 
             <div style="margin-bottom:25px;">
-                <p style="font-size:12px;font-weight:800;color:#666;margin-bottom:10px;text-align:center;">Código Pix Copia e Cola</p>
+                <p style="font-size:12px;font-weight:800;color:#000;margin-bottom:12px;text-align:left;">Código Pix (Copia e Cola):</p>
                 <div style="display:flex;gap:8px;">
                     <input type="text" id="pix-copy-paste" value="${pixData.copy_paste}" readonly style="flex:1;padding:15px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;font-size:13px;color:#000;outline:none;font-weight:700;text-overflow:ellipsis;">
-                    <button onclick="copiarPix()" style="padding:0 20px;background:#0047FF;color:white;border:none;border-radius:12px;font-weight:800;font-size:13px;cursor:pointer;">COPIAR</button>
+                    <button onclick="copiarPix()" style="padding:0 20px;background:#FF8C00;color:white;border:none;border-radius:12px;font-weight:800;font-size:13px;cursor:pointer;">COPIAR</button>
                 </div>
             </div>
 
@@ -270,7 +270,7 @@
             </div>
 
             <style>
-                .dot-blink { width: 8px; height: 8px; background: #0047FF; border-radius: 50%; animation: blink 1s infinite; }
+                .dot-blink { width: 8px; height: 8px; background: #FF8C00; border-radius: 50%; animation: blink 1s infinite; }
                 @keyframes blink { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
             </style>
         `;
@@ -305,7 +305,7 @@
                                 </p>
                             </div>
 
-                            <button onclick="location.reload()" style="width:100%;padding:18px;background:#0047FF;color:white;border:none;border-radius:15px;font-weight:900;font-size:16px;cursor:pointer;box-shadow:0 10px 20px rgba(0,71,255,0.2);">
+                            <button onclick="location.reload()" style="width:100%;padding:18px;background:#FF8C00;color:white;border:none;border-radius:15px;font-weight:900;font-size:16px;cursor:pointer;box-shadow:0 10px 20px rgba(255,140,0,0.2);">
                                  VOLTAR PARA A LOJA
                             </button>
                         </div>

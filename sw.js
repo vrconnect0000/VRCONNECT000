@@ -47,8 +47,8 @@ self.addEventListener('push', (event) => {
   let data = {
     title: 'JARDSON IMPORTS',
     body: 'Nova atualização disponível!',
-    icon: 'https://elated-amber-wem1glxi.edgeone.app/ChatGPT%20Image%2015%20de%20jun.%20de%202026,%2013_14_37.png',
-    badge: 'https://elated-amber-wem1glxi.edgeone.app/ChatGPT%20Image%2015%20de%20jun.%20de%202026,%2013_14_37.png'
+    icon: 'https://sudden-ivory-kqhup9glnq.edgeone.app/ChatGPT%20Image%2024%20de%20abr.%20de%202026,%2021_27_09.png',
+    badge: 'https://sudden-ivory-kqhup9glnq.edgeone.app/ChatGPT%20Image%2024%20de%20abr.%20de%202026,%2021_27_09.png'
   };
 
   if (event.data) {

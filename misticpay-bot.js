@@ -1,6 +1,6 @@
 (function() {
     window.SUPABASE_PAYMENT_URL = 'https://xjtkatmixfhxllummglk.supabase.co/functions/v1/misticpay-gateway'; 
-    const WHATSAPP_NUMERO_LOJA = '5596991557184';
+    const WHATSAPP_NUMERO_LOJA = '5596991189596';
 
     if (window.paymentPollingInterval) clearInterval(window.paymentPollingInterval);
     window.paymentPollingInterval = null;

@@ -138,15 +138,26 @@
                         </div>
                     </div>
 
-                    <div style="margin-bottom:25px;">
-                        <h4 style="font-size:14px;font-weight:900;color:#000;margin-bottom:12px;">Resumo do Pedido</h4>
-                        <div style="background:#f8fafc;padding:5px 15px;border-radius:20px;border:1px solid #f1f5f9;">
-                            ${itensHTML}
-                            <div style="padding:15px 0;text-align:right;">
-                                <p style="font-size:18px;font-weight:900;color:#000;margin:0;">Total: R$ ${pedidoInfo.total.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
-                            </div>
-                        </div>
-                    </div>
+	                    <div style="margin-bottom:25px;">
+	                        <h4 style="font-size:14px;font-weight:900;color:#000;margin-bottom:12px;">Resumo do Pedido</h4>
+	                        <div style="background:#f8fafc;padding:15px;border-radius:20px;border:1px solid #f1f5f9;margin-bottom:15px;">
+	                            <p style="font-size:12px;font-weight:800;color:#64748b;margin-bottom:8px;text-transform:uppercase;">Número do Pedido: #${pedidoInfo.numero}</p>
+	                            <div style="border-bottom:1px dashed #cbd5e1;margin-bottom:10px;"></div>
+	                            ${itensHTML}
+	                            <div style="padding-top:15px;text-align:right;">
+	                                <p style="font-size:18px;font-weight:900;color:#000;margin:0;">Total: R$ ${pedidoInfo.total.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+	                            </div>
+	                        </div>
+
+	                        <h4 style="font-size:14px;font-weight:900;color:#000;margin-bottom:12px;">Informações de Entrega</h4>
+	                        <div style="background:#f8fafc;padding:15px;border-radius:20px;border:1px solid #f1f5f9;">
+	                            <p style="font-size:13px;font-weight:800;color:#000;margin-bottom:4px;">${pedidoInfo.clienteNome}</p>
+	                            <p style="font-size:13px;color:#64748b;font-weight:600;margin:0;line-height:1.4;">
+	                                ${pedidoInfo.endereco}, ${pedidoInfo.numeroEndereco}<br>
+	                                ${pedidoInfo.bairro} - ${pedidoInfo.cidade}
+	                            </p>
+	                        </div>
+	                    </div>
                 </div>
             </div>
             <style>

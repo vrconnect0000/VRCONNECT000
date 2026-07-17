@@ -118,14 +118,6 @@
                     <p style="font-size:14px;font-weight:900;color:#000;margin-bottom:15px;">Escolha a forma de pagamento:</p>
                     <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:25px;">
                         
-                        <div onclick="processarPagamento('pix1')" style="padding:15px;border:1px solid #E2E8F0;border-radius:15px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;background:#FFF;transition:0.2s;">
-                            <div style="display:flex;align-items:center;gap:12px;">
-                                <div style="width:24px;height:24px;border:2px solid #E2E8F0;border-radius:50%;"></div>
-                                <span style="font-size:14px;font-weight:800;color:#000;">Pix 1 — JARDSON IMPORTS</span>
-                            </div>
-                            <img src="https://logopng.com.br/logos/pix-106.png" style="height:18px;">
-                        </div>
-
                         <div onclick="processarPagamento('pix2')" style="padding:15px;border:1px solid #E2E8F0;border-radius:15px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;background:#FFF;transition:0.2s;">
                             <div style="display:flex;align-items:center;gap:12px;">
                                 <div style="width:24px;height:24px;border:2px solid #E2E8F0;border-radius:50%;"></div>
